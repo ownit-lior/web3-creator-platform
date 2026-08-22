@@ -438,3 +438,165 @@ export const countries = [
   'יפן',
   'אחר',
 ] as const
+
+export const dashboardArtistProfile = {
+  fullName: 'נועה ברק',
+  stageName: 'נובה אוריון',
+  email: 'nova@ownit.io',
+  genre: 'אלקטרוני / סינת׳-פופ',
+  location: 'תל אביב, ישראל',
+  wallet: '0x7A21…91C4',
+  joined: 'מרץ 2025',
+  avatar: '/artist-nova.png',
+}
+
+export const artistFinance = {
+  earningsEth: '12.48 ETH',
+  earningsUsd: '$42,180',
+  expensesEth: '3.16 ETH',
+  expensesUsd: '$10,670',
+  netEth: '9.32 ETH',
+  netUsd: '$31,510',
+  earningsBreakdown: [
+    { label: 'סטרימינג', value: '4.82 ETH' },
+    { label: 'מכירת טוקנים', value: '5.10 ETH' },
+    { label: 'כרטיסים', value: '2.56 ETH' },
+  ],
+  expensesBreakdown: [
+    { label: 'הפקה ואולפן', value: '1.84 ETH' },
+    { label: 'קידום', value: '0.92 ETH' },
+    { label: 'עמלות פלטפורמה', value: '0.40 ETH' },
+  ],
+}
+
+export type UploadedSong = {
+  id: string
+  title: string
+  cover: string
+  released: string
+  duration: string
+  spotify: string
+  youtube: string
+  status: 'פעיל' | 'טיוטה'
+}
+
+export const uploadedSongs: UploadedSong[] = [
+  {
+    id: 'us1',
+    title: 'חלומות ניאון',
+    cover: '/album-neon-dreams.png',
+    released: '14.03.2026',
+    duration: '3:42',
+    spotify: '1.24M',
+    youtube: '812K',
+    status: 'פעיל',
+  },
+  {
+    id: 'us2',
+    title: 'חצות בעיר',
+    cover: '/album-midnight.png',
+    released: '02.01.2026',
+    duration: '4:15',
+    spotify: '640K',
+    youtube: '391K',
+    status: 'פעיל',
+  },
+  {
+    id: 'us3',
+    title: 'ירח מדברי',
+    cover: '/album-desert.png',
+    released: '18.11.2025',
+    duration: '5:01',
+    spotify: '428K',
+    youtube: '255K',
+    status: 'פעיל',
+  },
+  {
+    id: 'us4',
+    title: 'דמו — אורות צפון',
+    cover: '/album-neon-dreams.png',
+    released: 'טיוטה',
+    duration: '2:58',
+    spotify: '—',
+    youtube: '—',
+    status: 'טיוטה',
+  },
+]
+
+export const streamByMonth = [
+  { month: 'מרץ', spotify: 82, youtube: 54 },
+  { month: 'אפר׳', spotify: 96, youtube: 61 },
+  { month: 'מאי', spotify: 88, youtube: 73 },
+  { month: 'יונ׳', spotify: 124, youtube: 90 },
+  { month: 'יול׳', spotify: 141, youtube: 102 },
+  { month: 'אוג׳', spotify: 168, youtube: 118 },
+]
+
+export const dashboardInvestorProfile = {
+  fullName: 'אלון מזרחי',
+  email: 'alon@ownit.io',
+  location: 'הרצליה, ישראל',
+  wallet: '0x3F90…12AB',
+  joined: 'ינואר 2026',
+  risk: 'מאוזן',
+  avatar: '/placeholder-user.jpg',
+}
+
+export type Investment = {
+  id: string
+  artist: string
+  avatar: string
+  asset: string
+  invested: string
+  currentValue: string
+  revenue: string
+  revenuePerHour: string
+  roi: string
+  roiUp: boolean
+}
+
+export const investorPortfolio: Investment[] = [
+  {
+    id: 'inv1',
+    artist: 'נובה אוריון',
+    avatar: '/artist-nova.png',
+    asset: 'חלומות ניאון · $NOVA',
+    invested: '1.80 ETH',
+    currentValue: '2.41 ETH',
+    revenue: '0.214 ETH',
+    revenuePerHour: '+0.0008 ETH/שעה',
+    roi: '+33.9%',
+    roiUp: true,
+  },
+  {
+    id: 'inv2',
+    artist: 'יונתן שדה',
+    avatar: '/artist-solo.png',
+    asset: 'ירח מדברי · $SADE',
+    invested: '0.90 ETH',
+    currentValue: '0.97 ETH',
+    revenue: '0.062 ETH',
+    revenuePerHour: '+0.0002 ETH/שעה',
+    roi: '+7.8%',
+    roiUp: true,
+  },
+  {
+    id: 'inv3',
+    artist: 'מאיה דיגיטל',
+    avatar: '/artist-visual.png',
+    asset: 'שברי אור · $MAYA',
+    invested: '1.20 ETH',
+    currentValue: '1.08 ETH',
+    revenue: '0.031 ETH',
+    revenuePerHour: '+0.0001 ETH/שעה',
+    roi: '-10.0%',
+    roiUp: false,
+  },
+]
+
+export const investorTotals = {
+  invested: '3.90 ETH',
+  currentValue: '4.46 ETH',
+  revenue: '0.307 ETH',
+  roi: '+14.4%',
+}

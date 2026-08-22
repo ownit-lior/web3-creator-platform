@@ -12,14 +12,14 @@ export function RoleToggle({
   onChange: (r: Role) => void
 }) {
   const options: { role: Role; label: string; icon: typeof Users }[] = [
-    { role: 'fan', label: 'תצוגת קהל', icon: Users },
     { role: 'artist', label: 'תצוגת אמן', icon: Palette },
+    { role: 'fan', label: 'תצוגת משקיע', icon: Users },
   ]
   return (
     <div
       className="flex items-center gap-1 rounded-full border border-border bg-secondary/60 p-1"
       role="tablist"
-      aria-label="החלפת תצוגה בין קהל לאמן"
+      aria-label="החלפת תצוגה בין אמן למשקיע"
     >
       {options.map((o) => {
         const Icon = o.icon

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 import { client } from "@/app/client";
+import { VibeWordmark } from "@/components/vibe-wordmark";
 
 // שדרוג מטורף: הוספת התחברות אוטומטית עם גוגל, אפל ופייסבוק!
 // זה ייצר למשתמש ארנק מאחורי הקלעים בלי שהוא יצטרך להבין ב-Web3
@@ -17,9 +18,11 @@ const wallets = [
   createWallet("com.coinbase.wallet"),
 ];
 
+export type Role = 'artist' | 'fan'
+
 interface RegistrationModalProps {
   isOpen: boolean;
-  onRegistered: (data: { formData: any; role: "artist" | "fan" }) => void;
+  onRegistered: (data: { formData: any; role: Role }) => void;
 }
 
 export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalProps) {
@@ -121,16 +124,12 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
       <div className="flex-1 flex flex-col items-center justify-center pt-24 pb-12 px-4 relative z-10 w-full max-w-6xl mx-auto">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#3bc1ca]/15 rounded-full blur-[120px] pointer-events-none"></div>
         
-        <div className="w-20 h-20 mb-6 rounded-[1.5rem] bg-[#121a28] border border-[#1e2a44] flex items-center justify-center shadow-[0_0_40px_rgba(59,193,202,0.25)] relative overflow-hidden group">
-          <div className="absolute inset-0 bg-[#3bc1ca]/5 group-hover:bg-[#3bc1ca]/15 transition-colors"></div>
-          <svg className="w-10 h-10 text-[#3bc1ca] relative z-10 drop-shadow-[0_0_8px_rgba(59,193,202,0.6)]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M4 4l8 16 8-16" />
-            <circle cx="12" cy="12" r="3" fill="currentColor" />
-          </svg>
-        </div>
-        
-        <h1 className="text-7xl md:text-8xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#3bc1ca] tracking-tight mb-6 drop-shadow-2xl">
-          VIBE
+        <h1 className="mb-6 flex justify-center drop-shadow-2xl">
+          <VibeWordmark
+            className="text-7xl md:text-8xl"
+            logoClassName="text-[#3bc1ca] drop-shadow-[0_0_8px_rgba(59,193,202,0.6)]"
+            textClassName="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#3bc1ca]"
+          />
         </h1>
         
         <div className="flex flex-col items-center gap-5 text-center max-w-3xl">
@@ -209,7 +208,7 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
                 
                 <div className="text-right pr-4">
                   <h2 className="text-white text-[22px] font-bold tracking-tight">
-                    ברוכים הבאים ל-<span className="text-[#3bc1ca] font-black">VIBE</span>
+                    ברוכים הבאים ל-<VibeWordmark className="align-middle text-[22px] text-[#3bc1ca]" />
                   </h2>
                   <p className="text-slate-400 text-[13px] mt-0.5">
                     {step === 1 && "בחרו את סוג החשבון"}
