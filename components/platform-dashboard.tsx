@@ -24,8 +24,8 @@ import {
   uploadedSongs,
 } from '@/lib/mock-data'
 
-export function PlatformDashboard() {
-  const [role, setRole] = useState<Role>('artist')
+export function PlatformDashboard({ initialRole = 'artist' }: { initialRole?: Role }) {
+  const [role, setRole] = useState<Role>(initialRole)
   const isArtist = role === 'artist'
 
   return (
