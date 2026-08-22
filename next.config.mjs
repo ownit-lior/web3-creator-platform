@@ -1,4 +1,5 @@
 /** @type {import('next').NextConfig} */
+// Redeploy trigger
 const nextConfig = {
   typescript: {
     ignoreBuildErrors: true,
