@@ -6,7 +6,10 @@ const nextConfig = {
   images: {
     unoptimized: true,
   },
-  turbopack: {},
+  outputFileTracingRoot: import.meta.dirname,
+  turbopack: {
+    root: import.meta.dirname,
+  },
   webpack: (config) => {
     config.externals.push('pino-pretty', 'lokijs', 'encoding')
     return config
