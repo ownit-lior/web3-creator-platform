@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 import { client } from "@/app/client";
-import { VibeBrandLockup, VibeWordmark } from "@/components/vibe-wordmark";
+import { Logo } from '@/components/logo'
+import { VibeWordmark } from "@/components/vibe-wordmark";
 
 // שדרוג מטורף: הוספת התחברות אוטומטית עם גוגל, אפל ופייסבוק!
 // זה ייצר למשתמש ארנק מאחורי הקלעים בלי שהוא יצטרך להבין ב-Web3
@@ -122,12 +123,18 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
 
       {/* דף הבית המרכזי */}
       <div className="flex-1 flex flex-col items-center justify-center pt-24 pb-12 px-4 relative z-10 w-full max-w-6xl mx-auto">
-        {/* Soft neon atmosphere behind the brand lockup */}
+        {/* Soft neon atmosphere behind the logo */}
         <div className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[320px] bg-[#3bc1ca]/18 rounded-full blur-[110px] pointer-events-none" />
-        
-        {/* Centered vertical brand: neon VIBE → English line → compact mark */}
+
+        {/* Centered brand logo + English tagline */}
         <h1 className="mb-10 md:mb-12 flex justify-center">
-          <VibeBrandLockup />
+          <Logo
+            href={undefined}
+            priority
+            width={280}
+            height={92}
+            imageClassName="w-[200px] sm:w-[240px] md:w-[280px]"
+          />
         </h1>
         
         <div className="flex flex-col items-center gap-5 text-center max-w-3xl">
