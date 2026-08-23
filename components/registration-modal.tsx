@@ -105,24 +105,29 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
     onRegistered({ formData, role: userRole! });
   };
 
+  const renderRegisterButton = () => (
+    <button
+      type="button"
+      onClick={() => setShowModal(true)}
+      className="bg-transparent border-2 border-[#3bc1ca] text-[#3bc1ca] hover:bg-[#3bc1ca] hover:text-[#070b14] px-6 py-2.5 rounded-full font-bold transition-all shadow-[0_0_15px_rgba(59,193,202,0.3)] flex items-center gap-2 text-sm md:text-base"
+    >
+      <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+        <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
+      </svg>
+      כניסה / הרשמה
+    </button>
+  );
+
   return (
     <div className="fixed inset-0 z-40 bg-[#070b14] overflow-y-auto min-h-screen flex flex-col relative" dir="rtl">
       
-      {/* כפתור הרשמה עליון בדף הבית */}
-      <div className="absolute top-6 right-6 md:right-10 z-50">
-        <button 
-          onClick={() => setShowModal(true)}
-          className="bg-transparent border-2 border-[#3bc1ca] text-[#3bc1ca] hover:bg-[#3bc1ca] hover:text-[#070b14] px-6 py-2.5 rounded-full font-bold transition-all shadow-[0_0_15px_rgba(59,193,202,0.3)] flex items-center gap-2 text-sm md:text-base"
-        >
-          <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
-            <path strokeLinecap="round" strokeLinejoin="round" d="M15.75 6a3.75 3.75 0 11-7.5 0 3.75 3.75 0 017.5 0zM4.501 20.118a7.5 7.5 0 0114.998 0A17.933 17.933 0 0112 21.75c-2.676 0-5.216-.584-7.499-1.632z" />
-          </svg>
-          כניסה / הרשמה
-        </button>
+      {/* כפתור הרשמה בפינה — מחשב בלבד */}
+      <div className="hidden lg:block absolute top-6 right-6 lg:right-10 z-50">
+        {renderRegisterButton()}
       </div>
 
       {/* דף הבית המרכזי */}
-      <div className="flex-1 flex flex-col items-center justify-center pt-24 pb-12 px-4 relative z-10 w-full max-w-6xl mx-auto">
+      <div className="flex-1 flex flex-col items-center justify-center pt-12 lg:pt-24 pb-12 px-4 relative z-10 w-full max-w-6xl mx-auto">
         {/* Soft neon atmosphere behind the logo */}
         <div className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[320px] bg-[#3bc1ca]/18 rounded-full blur-[110px] pointer-events-none" />
 
@@ -144,6 +149,11 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
           <p className="text-slate-300 text-lg md:text-xl font-light leading-relaxed">
             הפלטפורמה שמחברת בין יוצרים לקהילה, מאפשרת השקעה ביצירות ומעניקה לכם שותפות אקסקלוסיבית להצלחה.
           </p>
+
+          {/* כפתור הרשמה במרכז מתחת לכיתוב — טלפון וטאבלט */}
+          <div className="lg:hidden flex justify-center mt-2">
+            {renderRegisterButton()}
+          </div>
         </div>
         
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 text-right w-full mt-16 animate-in fade-in slide-in-from-bottom-8 duration-700">
