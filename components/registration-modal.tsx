@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 import { client } from "@/app/client";
-import { VibeWordmark } from "@/components/vibe-wordmark";
+import { VibeBrandLockup, VibeWordmark } from "@/components/vibe-wordmark";
 
 // שדרוג מטורף: הוספת התחברות אוטומטית עם גוגל, אפל ופייסבוק!
 // זה ייצר למשתמש ארנק מאחורי הקלעים בלי שהוא יצטרך להבין ב-Web3
@@ -124,20 +124,13 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
       <div className="flex-1 flex flex-col items-center justify-center pt-24 pb-12 px-4 relative z-10 w-full max-w-6xl mx-auto">
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#3bc1ca]/15 rounded-full blur-[120px] pointer-events-none"></div>
         
-        <h1 className="mb-6 flex justify-center drop-shadow-2xl">
-          <VibeWordmark
-            className="text-7xl md:text-8xl"
-            logoClassName="text-[#3bc1ca] drop-shadow-[0_0_8px_rgba(59,193,202,0.6)]"
-            textClassName="text-transparent bg-clip-text bg-gradient-to-r from-white via-white to-[#3bc1ca]"
-          />
+        {/* לוקאפ מותג יוקרתי: לוגו + הרחבה באנגלית */}
+        <h1 className="mb-10 md:mb-12 flex justify-center">
+          <VibeBrandLockup />
         </h1>
         
         <div className="flex flex-col items-center gap-5 text-center max-w-3xl">
-          <div className="text-[#3bc1ca] font-mono text-xs md:text-sm font-bold uppercase tracking-[0.25em] bg-[#3bc1ca]/10 py-2 px-6 rounded-full border border-[#3bc1ca]/20 shadow-inner">
-            Verified Intellectual Blockchain Equity
-          </div>
-          
-          <h2 className="text-white text-2xl md:text-3xl font-bold leading-relaxed drop-shadow-md mt-2">
+          <h2 className="text-white text-2xl md:text-3xl font-bold leading-relaxed drop-shadow-md">
             בורסת הערך וההשקעות של עולם האמנות.
           </h2>
           <p className="text-slate-300 text-lg md:text-xl font-light leading-relaxed">
