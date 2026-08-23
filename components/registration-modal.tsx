@@ -122,9 +122,10 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
 
       {/* דף הבית המרכזי */}
       <div className="flex-1 flex flex-col items-center justify-center pt-24 pb-12 px-4 relative z-10 w-full max-w-6xl mx-auto">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-[#3bc1ca]/15 rounded-full blur-[120px] pointer-events-none"></div>
+        {/* Soft neon atmosphere behind the brand lockup */}
+        <div className="absolute top-[38%] left-1/2 -translate-x-1/2 -translate-y-1/2 w-[640px] h-[320px] bg-[#3bc1ca]/18 rounded-full blur-[110px] pointer-events-none" />
         
-        {/* לוקאפ מותג יוקרתי: לוגו + הרחבה באנגלית */}
+        {/* Centered vertical brand: neon VIBE → English line → compact mark */}
         <h1 className="mb-10 md:mb-12 flex justify-center">
           <VibeBrandLockup />
         </h1>
