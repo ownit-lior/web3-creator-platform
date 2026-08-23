@@ -131,9 +131,9 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
           <Logo
             href={undefined}
             priority
-            width={280}
-            height={92}
-            imageClassName="w-[200px] sm:w-[240px] md:w-[280px]"
+            width={420}
+            height={180}
+            imageClassName="w-[240px] sm:w-[300px] md:w-[360px]"
           />
         </h1>
         
