@@ -2,17 +2,38 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { cn } from '@/lib/utils'
 
+const LOGO_SIZES = {
+  hero: {
+    width: 420,
+    height: 180,
+    imageClassName: 'w-[240px] sm:w-[300px] md:w-[360px]',
+  },
+  header: {
+    width: 180,
+    height: 64,
+    imageClassName: 'w-[130px] sm:w-[150px]',
+  },
+  inline: {
+    width: 96,
+    height: 36,
+    imageClassName: 'w-[80px]',
+  },
+} as const
+
+type LogoSize = keyof typeof LOGO_SIZES
+
 type LogoProps = {
-  href?: string
+  href?: string | null
   className?: string
   imageClassName?: string
   showTagline?: boolean
+  size?: LogoSize
   width?: number
   height?: number
   priority?: boolean
 }
 
-function AcronymTagline({ className }: { className?: string }) {
+export function AcronymTagline({ className }: { className?: string }) {
   return (
     <p
       dir="ltr"
@@ -41,27 +62,50 @@ function AcronymTagline({ className }: { className?: string }) {
   )
 }
 
+/** Image-only VIBE mark (no tagline) — for headers, modals, inline use */
+export function LogoMark({
+  className,
+  imageClassName,
+  size = 'header',
+  width,
+  height,
+  priority = false,
+}: Pick<LogoProps, 'className' | 'imageClassName' | 'size' | 'width' | 'height' | 'priority'>) {
+  const preset = LOGO_SIZES[size ?? 'header']
+  return (
+    <span className={cn('inline-flex items-center', className)}>
+      <Image
+        src="/vibe-logo.png"
+        alt="VIBE"
+        width={width ?? preset.width}
+        height={height ?? preset.height}
+        className={cn('h-auto w-auto max-w-full object-contain', preset.imageClassName, imageClassName)}
+        priority={priority}
+      />
+    </span>
+  )
+}
+
 export function Logo({
   href = '/',
   className,
   imageClassName,
   showTagline = true,
-  width = 320,
-  height = 120,
+  size = 'hero',
+  width,
+  height,
   priority = false,
 }: LogoProps) {
+  const preset = LOGO_SIZES[size]
+
   const content = (
     <>
       <div className="relative flex items-center transition-transform duration-300 group-hover:scale-[1.03]">
-        <Image
-          src="/vibe-logo.png"
-          alt="VIBE — Verified Intellectual Blockchain Equity"
-          width={width}
-          height={height}
-          className={cn(
-            'h-auto w-auto max-w-full object-contain',
-            imageClassName,
-          )}
+        <LogoMark
+          size={size}
+          width={width ?? preset.width}
+          height={height ?? preset.height}
+          imageClassName={imageClassName}
           priority={priority}
         />
       </div>
@@ -70,7 +114,7 @@ export function Logo({
     </>
   )
 
-  if (!href) {
+  if (href === null || href === undefined) {
     return (
       <div className={cn('group flex flex-col items-center justify-center', className)}>
         {content}

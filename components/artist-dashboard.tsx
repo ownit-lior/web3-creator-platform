@@ -1,15 +1,19 @@
 "use client";
 
+import { Logo } from '@/components/logo'
+
 export function ArtistDashboard() {
   return (
     <div className="min-h-screen bg-black text-white p-8 font-sans">
       <div className="max-w-5xl mx-auto">
-        {/* כותרת הדאשבורד */}
-        <header className="mb-10">
+        <header className="mb-10 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+          <Logo href="/" showTagline={false} size="header" className="items-start" />
+          <div>
           <h1 className="text-4xl font-extrabold bg-gradient-to-r from-purple-500 to-blue-500 bg-clip-text text-transparent mb-2">
             לוח בקרת אמן
           </h1>
           <p className="text-zinc-400">ברוך הבא ל-VIBE. הנה הנתונים שלך להיום.</p>
+          </div>
         </header>
 
         {/* קוביות נתונים */}

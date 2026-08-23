@@ -10,7 +10,7 @@ import {
   Wallet,
 } from 'lucide-react'
 import { RoleToggle } from '@/components/role-toggle'
-import { VibeWordmark } from '@/components/vibe-wordmark'
+import { Logo } from '@/components/logo'
 import type { Role } from '@/components/registration-modal'
 import { Badge, Card } from '@/components/primitives'
 import { cn } from '@/lib/utils'
@@ -32,16 +32,16 @@ export function PlatformDashboard({ initialRole = 'artist' }: { initialRole?: Ro
     <div className="min-h-screen bg-background text-foreground">
       <header className="sticky top-0 z-20 border-b border-border/80 bg-background/80 backdrop-blur-md">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <p className="text-xs font-semibold tracking-wide text-primary">
-              <VibeWordmark className="text-base" logoClassName="text-primary" />
-            </p>
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:gap-6">
+            <Logo href="/" showTagline={false} size="header" className="items-start sm:items-center" />
+            <div>
             <h1 className="font-display text-2xl font-semibold tracking-tight">
               {isArtist ? 'לוח בקרה לאמן' : 'לוח בקרה למשקיע'}
             </h1>
             <p className="text-sm text-muted-foreground">
               נתוני דמו בלבד — החליפו תצוגה כדי לבדוק את שני המצבים.
             </p>
+            </div>
           </div>
           <RoleToggle role={role} onChange={setRole} />
         </div>

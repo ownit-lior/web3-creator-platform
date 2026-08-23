@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 import { ConnectButton, useActiveAccount } from "thirdweb/react";
 import { createWallet, inAppWallet } from "thirdweb/wallets";
 import { client } from "@/app/client";
-import { Logo } from '@/components/logo'
-import { VibeWordmark } from "@/components/vibe-wordmark";
+import { Logo, LogoMark } from '@/components/logo'
 
 // שדרוג מטורף: הוספת התחברות אוטומטית עם גוגל, אפל ופייסבוק!
 // זה ייצר למשתמש ארנק מאחורי הקלעים בלי שהוא יצטרך להבין ב-Web3
@@ -133,13 +132,7 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
 
         {/* Centered brand logo + English tagline */}
         <h1 className="mb-10 md:mb-12 flex justify-center">
-          <Logo
-            href={undefined}
-            priority
-            width={420}
-            height={180}
-            imageClassName="w-[240px] sm:w-[300px] md:w-[360px]"
-          />
+          <Logo href={null} priority size="hero" />
         </h1>
         
         <div className="flex flex-col items-center gap-5 text-center max-w-3xl">
@@ -218,8 +211,9 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
                 </div>
                 
                 <div className="text-right pr-4">
-                  <h2 className="text-white text-[22px] font-bold tracking-tight">
-                    ברוכים הבאים ל-<VibeWordmark className="align-middle text-[22px] text-[#3bc1ca]" />
+                  <h2 className="text-white text-[22px] font-bold tracking-tight flex flex-wrap items-center justify-end gap-2">
+                    <span>ברוכים הבאים ל-</span>
+                    <LogoMark size="inline" className="inline-flex shrink-0" imageClassName="w-[72px]" />
                   </h2>
                   <p className="text-slate-400 text-[13px] mt-0.5">
                     {step === 1 && "בחרו את סוג החשבון"}
