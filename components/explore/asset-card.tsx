@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Link from 'next/link'
 import { ArrowUpLeft, TrendingUp } from 'lucide-react'
 import { Badge, ProgressBar } from '@/components/primitives'
 import { CREATOR_TIER_LABELS, type InvestmentAsset } from '@/lib/marketplace-data'
@@ -12,6 +13,11 @@ const tierStyles: Record<InvestmentAsset['tier'], string> = {
 
 export function AssetCard({ asset }: { asset: InvestmentAsset }) {
   const isPresale = asset.status === 'presale' && asset.presaleProgress != null
+  const dropHref = isPresale ? `/drop/${asset.id}` : null
+  const ctaClassName =
+    'mt-auto flex w-full items-center justify-center gap-2 rounded-xl border border-[#3bc1ca]/40 bg-[#3bc1ca]/10 py-3 text-sm font-bold text-[#3bc1ca] transition-all hover:border-[#3bc1ca] hover:bg-[#3bc1ca] hover:text-[#070b14]'
+  const ctaLabel = isPresale ? 'השקעה' : 'צפייה בנכס'
+  const ctaIcon = <ArrowUpLeft className="h-4 w-4" aria-hidden />
 
   return (
     <article className="group flex h-full flex-col overflow-hidden rounded-2xl border border-[#1e2a44] bg-[#12192b]/80 shadow-lg transition-all duration-300 hover:border-[#3bc1ca]/40 hover:shadow-[0_0_30px_rgba(59,193,202,0.12)]">
@@ -75,13 +81,17 @@ export function AssetCard({ asset }: { asset: InvestmentAsset }) {
           </div>
         )}
 
-        <button
-          type="button"
-          className="mt-auto flex w-full items-center justify-center gap-2 rounded-xl border border-[#3bc1ca]/40 bg-[#3bc1ca]/10 py-3 text-sm font-bold text-[#3bc1ca] transition-all hover:border-[#3bc1ca] hover:bg-[#3bc1ca] hover:text-[#070b14]"
-        >
-          {isPresale ? 'השקעה' : 'צפייה בנכס'}
-          <ArrowUpLeft className="h-4 w-4" aria-hidden />
-        </button>
+        {dropHref ? (
+          <Link href={dropHref} className={ctaClassName}>
+            {ctaLabel}
+            {ctaIcon}
+          </Link>
+        ) : (
+          <button type="button" className={ctaClassName}>
+            {ctaLabel}
+            {ctaIcon}
+          </button>
+        )}
       </div>
     </article>
   )
