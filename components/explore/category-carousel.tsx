@@ -18,21 +18,23 @@ export function CategoryCarousel({
   className,
 }: CategoryCarouselProps) {
   const scrollRef = useRef<HTMLDivElement>(null)
-  const [canScrollLeft, setCanScrollLeft] = useState(false)
-  const [canScrollRight, setCanScrollRight] = useState(true)
+  const [canScrollStart, setCanScrollStart] = useState(false)
+  const [canScrollEnd, setCanScrollEnd] = useState(true)
 
   const updateScrollState = useCallback(() => {
     const el = scrollRef.current
     if (!el) return
-    setCanScrollLeft(el.scrollLeft > 4)
-    setCanScrollRight(el.scrollLeft < el.scrollWidth - el.clientWidth - 4)
+    const maxScroll = el.scrollWidth - el.clientWidth
+    // LTR scroll container: start = left, end = right
+    setCanScrollStart(el.scrollLeft > 4)
+    setCanScrollEnd(el.scrollLeft < maxScroll - 4)
   }, [])
 
-  const scroll = (direction: 'left' | 'right') => {
+  const scroll = (direction: 'start' | 'end') => {
     const el = scrollRef.current
     if (!el) return
     const amount = el.clientWidth * 0.75
-    el.scrollBy({ left: direction === 'left' ? -amount : amount, behavior: 'smooth' })
+    el.scrollBy({ left: direction === 'start' ? -amount : amount, behavior: 'smooth' })
   }
 
   return (
@@ -43,21 +45,22 @@ export function CategoryCarousel({
           {subtitle ? <p className="mt-1 text-sm text-slate-400">{subtitle}</p> : null}
         </div>
         <div className="hidden items-center gap-2 sm:flex">
+          {/* In RTL UI: "next" points left visually */}
           <button
             type="button"
-            onClick={() => scroll('left')}
-            disabled={!canScrollLeft}
+            onClick={() => scroll('end')}
+            disabled={!canScrollEnd}
             className="flex h-9 w-9 items-center justify-center rounded-full border border-[#1e2a44] bg-[#12192b] text-slate-300 transition-colors hover:border-[#3bc1ca]/40 hover:text-[#3bc1ca] disabled:cursor-not-allowed disabled:opacity-30"
-            aria-label={`Scroll ${title} left`}
+            aria-label={`גלול ${title} קדימה`}
           >
             <ChevronLeft className="h-4 w-4" />
           </button>
           <button
             type="button"
-            onClick={() => scroll('right')}
-            disabled={!canScrollRight}
+            onClick={() => scroll('start')}
+            disabled={!canScrollStart}
             className="flex h-9 w-9 items-center justify-center rounded-full border border-[#1e2a44] bg-[#12192b] text-slate-300 transition-colors hover:border-[#3bc1ca]/40 hover:text-[#3bc1ca] disabled:cursor-not-allowed disabled:opacity-30"
-            aria-label={`Scroll ${title} right`}
+            aria-label={`גלול ${title} אחורה`}
           >
             <ChevronRight className="h-4 w-4" />
           </button>
@@ -65,23 +68,24 @@ export function CategoryCarousel({
       </div>
 
       <div className="relative">
-        {/* Fade edges */}
-        <div
-          className={cn(
-            'pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-[#070b14] to-transparent transition-opacity md:w-12',
-            canScrollLeft ? 'opacity-100' : 'opacity-0',
-          )}
-        />
         <div
           className={cn(
             'pointer-events-none absolute inset-y-0 right-0 z-10 w-8 bg-gradient-to-l from-[#070b14] to-transparent transition-opacity md:w-12',
-            canScrollRight ? 'opacity-100' : 'opacity-0',
+            canScrollStart ? 'opacity-100' : 'opacity-0',
+          )}
+        />
+        <div
+          className={cn(
+            'pointer-events-none absolute inset-y-0 left-0 z-10 w-8 bg-gradient-to-r from-[#070b14] to-transparent transition-opacity md:w-12',
+            canScrollEnd ? 'opacity-100' : 'opacity-0',
           )}
         />
 
+        {/* Keep LTR scroll math stable while page is RTL */}
         <div
           ref={scrollRef}
           onScroll={updateScrollState}
+          dir="ltr"
           className="flex gap-5 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
         >
           {children}
@@ -92,5 +96,9 @@ export function CategoryCarousel({
 }
 
 export function CarouselItem({ children }: { children: React.ReactNode }) {
-  return <div className="w-[280px] shrink-0 sm:w-[300px]">{children}</div>
+  return (
+    <div className="w-[280px] shrink-0 sm:w-[300px]" dir="rtl">
+      {children}
+    </div>
+  )
 }

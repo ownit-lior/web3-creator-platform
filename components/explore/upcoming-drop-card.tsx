@@ -31,13 +31,11 @@ function getTimeLeft(launchAt: string): TimeLeft {
 
 function CountdownUnit({ value, label }: { value: number; label: string }) {
   return (
-    <div className="flex flex-col items-center rounded-lg border border-[#1e2a44] bg-[#0f172a]/80 px-2.5 py-2 min-w-[52px]">
+    <div className="flex min-w-[52px] flex-col items-center rounded-lg border border-[#1e2a44] bg-[#0f172a]/80 px-2.5 py-2">
       <span className="text-lg font-bold tabular-nums text-[#3bc1ca]">
         {String(value).padStart(2, '0')}
       </span>
-      <span className="text-[9px] font-medium uppercase tracking-wider text-slate-500">
-        {label}
-      </span>
+      <span className="text-[9px] font-medium tracking-wide text-slate-500">{label}</span>
     </div>
   )
 }
@@ -58,15 +56,15 @@ export function UpcomingDropCard({ drop }: { drop: UpcomingDrop }) {
       <div className="relative aspect-[16/10] overflow-hidden bg-[#0f172a]">
         <Image
           src={drop.cover}
-          alt={`${drop.title} preview`}
+          alt={`תצוגה מקדימה של ${drop.title}`}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="(max-width: 640px) 100vw, 33vw"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/90 via-transparent to-transparent" />
-        <span className="absolute top-3 left-3 inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-[#070b14]/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-amber-400 backdrop-blur-sm">
+        <span className="absolute top-3 right-3 inline-flex items-center gap-1.5 rounded-full border border-amber-500/30 bg-[#070b14]/80 px-2.5 py-1 text-[10px] font-bold tracking-wide text-amber-400 backdrop-blur-sm">
           <Clock className="h-3 w-3" aria-hidden />
-          Coming Soon
+          בקרוב
         </span>
       </div>
 
@@ -83,13 +81,13 @@ export function UpcomingDropCard({ drop }: { drop: UpcomingDrop }) {
         <p className="text-sm leading-relaxed text-slate-400">{drop.description}</p>
 
         {timeLeft.expired ? (
-          <p className="text-center text-sm font-semibold text-emerald-400">Now Live!</p>
+          <p className="text-center text-sm font-semibold text-emerald-400">זמין עכשיו!</p>
         ) : (
           <div className="flex justify-center gap-2">
-            <CountdownUnit value={timeLeft.days} label="Days" />
-            <CountdownUnit value={timeLeft.hours} label="Hrs" />
-            <CountdownUnit value={timeLeft.minutes} label="Min" />
-            <CountdownUnit value={timeLeft.seconds} label="Sec" />
+            <CountdownUnit value={timeLeft.days} label="ימים" />
+            <CountdownUnit value={timeLeft.hours} label="שעות" />
+            <CountdownUnit value={timeLeft.minutes} label="דק׳" />
+            <CountdownUnit value={timeLeft.seconds} label="שנ׳" />
           </div>
         )}
 
@@ -106,12 +104,12 @@ export function UpcomingDropCard({ drop }: { drop: UpcomingDrop }) {
           {reminded ? (
             <>
               <BellRing className="h-4 w-4" aria-hidden />
-              Reminder Set
+              תזכורת הוגדרה
             </>
           ) : (
             <>
               <Bell className="h-4 w-4" aria-hidden />
-              Remind Me
+              הזכירו לי
             </>
           )}
         </button>
