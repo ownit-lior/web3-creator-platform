@@ -81,11 +81,11 @@ export function ClubHero({ club }: { club: ClubPageDetail }) {
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-[#1e2a44] bg-[#12192b]/80 px-2.5 py-1">
                   <Coins className="h-3.5 w-3.5 text-[#3bc1ca]" aria-hidden />
-                  {club.tokenSymbol}
+                  <span dir="ltr">{club.tokenSymbol}</span>
                 </span>
                 <span className="inline-flex items-center gap-1.5 rounded-full border border-[#1e2a44] bg-[#12192b]/80 px-2.5 py-1">
                   <TrendingUp className="h-3.5 w-3.5 text-emerald-400" aria-hidden />
-                  ${club.tokenPrice.toFixed(2)}
+                  <span dir="ltr">${club.tokenPrice.toFixed(2)}</span>
                 </span>
               </div>
             </div>
