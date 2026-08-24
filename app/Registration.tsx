@@ -1,21 +1,12 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ConnectButton, useActiveAccount } from "thirdweb/react";
-import { createWallet } from "thirdweb/wallets";
-import { client } from "./client";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 import CreateCollection from "./CreateCollection";
 
-const wallets = [
-  createWallet("io.metamask"),
-  createWallet("com.coinbase.wallet"),
-  createWallet("me.rainbow"),
-  createWallet("io.rabby"),
-  createWallet("io.zerion.wallet"),
-];
-
 export default function Registration() {
-  const account = useActiveAccount();
+  const { address, isConnected } = useAccount();
   const [userRole, setUserRole] = useState<"artist" | "fan" | null>(null);
   const [isRegistered, setIsRegistered] = useState(false);
   
@@ -32,8 +23,8 @@ export default function Registration() {
   });
 
   useEffect(() => {
-    if (account) {
-      const savedData = localStorage.getItem(`ownit_user_${account.address}`);
+    if (address) {
+      const savedData = localStorage.getItem(`ownit_user_${address}`);
       if (savedData) {
         const parsedData = JSON.parse(savedData);
         setFormData(parsedData.formData);
@@ -44,18 +35,18 @@ export default function Registration() {
         setUserRole(null);
       }
     }
-  }, [account]);
+  }, [address]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     const dataToSave = { formData, role: userRole };
-    localStorage.setItem(`ownit_user_${account?.address}`, JSON.stringify(dataToSave));
+    localStorage.setItem(`ownit_user_${address}`, JSON.stringify(dataToSave));
     setIsRegistered(true); 
   };
 
   const clearProfile = () => {
-    if (account) {
-      localStorage.removeItem(`ownit_user_${account.address}`);
+    if (address) {
+      localStorage.removeItem(`ownit_user_${address}`);
       setIsRegistered(false);
       setUserRole(null);
     }
@@ -66,7 +57,7 @@ export default function Registration() {
     alert(`בסביבת ייצור (Production), כפתור זה ימשוך את השם והתמונה שלך מ-${provider} בלחיצת כפתור כדי למלא את הטופס אוטומטית!`);
   };
 
-  if (!account) {
+  if (!isConnected || !address) {
     return (
       <div className="flex flex-col items-center gap-6 mt-12 bg-slate-900/80 p-10 rounded-2xl border border-slate-700/50 shadow-2xl max-w-md w-full backdrop-blur-sm">
         <div className="text-center">
@@ -75,12 +66,12 @@ export default function Registration() {
             בשלב הראשון, חבר את ארנק הקריפטו שלך. ארנק זה ישמש כזיהוי אנונימי לקבלת תמלוגים או שמירת נכסים.
           </p>
         </div>
-        <ConnectButton client={client} wallets={wallets} />
+        <ConnectButton />
       </div>
     );
   }
 
-  if (account && !userRole) {
+  if (address && !userRole) {
     return (
       <div className="flex flex-col items-center gap-6 mt-12 bg-slate-900/80 p-10 rounded-2xl border border-slate-700/50 shadow-2xl max-w-2xl w-full backdrop-blur-sm">
         <div className="text-center w-full mb-4">
@@ -104,7 +95,7 @@ export default function Registration() {
     );
   }
 
-  if (account && userRole && !isRegistered) {
+  if (address && userRole && !isRegistered) {
     return (
       <div className="flex flex-col items-center gap-6 mt-12 bg-slate-900/80 p-10 rounded-2xl border border-slate-700/50 shadow-2xl max-w-md w-full backdrop-blur-sm">
         <div className="text-center w-full">
@@ -203,7 +194,7 @@ export default function Registration() {
             </h3>
             <p className="text-slate-400 text-sm mt-1">
               {formData.age && `גיל: ${formData.age} | `} 
-              <span className="font-mono text-xs">{account.address.substring(0, 6)}...{account.address.substring(account.address.length - 4)}</span>
+              <span className="font-mono text-xs">{address.substring(0, 6)}...{address.substring(address.length - 4)}</span>
             </p>
           </div>
         </div>

@@ -1,11 +1,2 @@
-'use client'
-
-import { ThirdwebProvider } from 'thirdweb/react'
-
-export function AppThirdwebProvider({
-  children,
-}: {
-  children: React.ReactNode
-}) {
-  return <ThirdwebProvider>{children}</ThirdwebProvider>
-}
+/** @deprecated Use `@/components/web3-provider` */
+export { Web3Provider as AppThirdwebProvider } from '@/components/web3-provider'

@@ -1,22 +1,9 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import { ConnectButton, useActiveAccount } from "thirdweb/react";
-import { createWallet, inAppWallet } from "thirdweb/wallets";
-import { client } from "@/app/client";
+import { ConnectButton } from "@rainbow-me/rainbowkit";
+import { useAccount } from "wagmi";
 import { Logo, LogoMark } from '@/components/logo'
-
-// שדרוג מטורף: הוספת התחברות אוטומטית עם גוגל, אפל ופייסבוק!
-// זה ייצר למשתמש ארנק מאחורי הקלעים בלי שהוא יצטרך להבין ב-Web3
-const wallets = [
-  inAppWallet({
-    auth: {
-      options: ["google", "apple", "facebook", "email"],
-    },
-  }),
-  createWallet("io.metamask"),
-  createWallet("com.coinbase.wallet"),
-];
 
 export type Role = 'artist' | 'fan'
 
@@ -26,7 +13,7 @@ interface RegistrationModalProps {
 }
 
 export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalProps) {
-  const account = useActiveAccount();
+  const { address, isConnected } = useAccount();
   
   const [showModal, setShowModal] = useState(false);
   const [step, setStep] = useState<1 | 2 | 3 | 4>(1);
@@ -47,18 +34,17 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
   });
 
   useEffect(() => {
-    if (!account) {
+    if (!isConnected) {
       setUserRole(null);
     }
-  }, [account]);
+  }, [isConnected]);
 
   // זיהוי חיבור (בין אם דרך מטא-מאסק או דרך גוגל/אפל) ומעבר למסך המתנה
   useEffect(() => {
-    if (step === 3 && account && !isSubmitting) {
+    if (step === 3 && address && !isSubmitting) {
       const performRegistration = async () => {
         setIsSubmitting(true);
-        // בשלב הבא כאן נעלה את ה-profileFile למסד הנתונים!
-        const payload = { formData, role: userRole, walletAddress: account.address };
+        const payload = { formData, role: userRole, walletAddress: address };
         
         try {
           const response = await fetch("/api/register", {
@@ -68,8 +54,8 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
           });
 
           if (response.ok || !response.ok) { 
-            if (account?.address) {
-              localStorage.setItem(`vibe_user_${account.address}`, JSON.stringify({ formData, role: userRole }));
+            if (address) {
+              localStorage.setItem(`vibe_user_${address}`, JSON.stringify({ formData, role: userRole }));
             }
             setTimeout(() => setStep(4), 1500); 
           }
@@ -81,7 +67,7 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
 
       performRegistration();
     }
-  }, [step, account]);
+  }, [step, address, isSubmitting, formData, userRole]);
 
   if (!isOpen) return null;
 
@@ -335,13 +321,7 @@ export function RegistrationModal({ isOpen, onRegistered }: RegistrationModalPro
                          <span className="font-medium">פותח חשבון ומאשר מתנה...</span>
                       </div>
                     ) : (
-                      // כאן הלקוח יראה את כפתורי גוגל, פייסבוק, אפל והארנקים!
-                      <ConnectButton 
-                        client={client} 
-                        wallets={wallets} 
-                        theme="dark" 
-                        connectButton={{ label: "התחברות וקבלת המתנה" }} 
-                      />
+                      <ConnectButton label="התחברות וקבלת המתנה" />
                     )}
                   </div>
                 </div>
