@@ -1,6 +1,7 @@
 'use client'
 
 import Image from 'next/image'
+import Link from 'next/link'
 import {
   Crown,
   Gift,
@@ -119,13 +120,13 @@ export function ClubCard({ club }: { club: CreatorClub }) {
           </div>
         </div>
 
-        <button
-          type="button"
+        <Link
+          href={`/club/${club.id}`}
           className="mt-auto flex w-full items-center justify-center gap-2 rounded-xl border border-violet-500/40 bg-violet-500/10 py-3 text-sm font-bold text-violet-300 transition-all hover:border-violet-400 hover:bg-violet-500 hover:text-white"
         >
           <Users className="h-4 w-4" aria-hidden />
-          הצטרפות למועדון
-        </button>
+          כניסה למועדון
+        </Link>
       </div>
     </article>
   )
