@@ -2,3 +2,9 @@ node_modules/
 .next/
 .env.local
 .env
+
+# Foundry
+contracts/cache/
+contracts/out/
+contracts/broadcast/
+contracts/.env
