@@ -1,7 +1,7 @@
 import Image from 'next/image'
-import { ArrowUpRight, TrendingUp } from 'lucide-react'
+import { ArrowUpLeft, TrendingUp } from 'lucide-react'
 import { Badge, ProgressBar } from '@/components/primitives'
-import type { InvestmentAsset } from '@/lib/marketplace-data'
+import { CREATOR_TIER_LABELS, type InvestmentAsset } from '@/lib/marketplace-data'
 import { cn } from '@/lib/utils'
 
 const tierStyles: Record<InvestmentAsset['tier'], string> = {
@@ -18,15 +18,15 @@ export function AssetCard({ asset }: { asset: InvestmentAsset }) {
       <div className="relative aspect-square overflow-hidden bg-[#0f172a]">
         <Image
           src={asset.cover}
-          alt={`${asset.title} cover art`}
+          alt={`עטיפת ${asset.title}`}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-110"
           sizes="300px"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-[#070b14]/80 via-transparent to-transparent opacity-80" />
         {isPresale && (
-          <span className="absolute top-3 left-3 rounded-full border border-[#3bc1ca]/30 bg-[#070b14]/80 px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider text-[#3bc1ca] backdrop-blur-sm">
-            Presale
+          <span className="absolute top-3 right-3 rounded-full border border-[#3bc1ca]/30 bg-[#070b14]/80 px-2.5 py-1 text-[10px] font-bold tracking-wide text-[#3bc1ca] backdrop-blur-sm">
+            טרום-מכירה
           </span>
         )}
       </div>
@@ -44,7 +44,7 @@ export function AssetCard({ asset }: { asset: InvestmentAsset }) {
               tierStyles[asset.tier],
             )}
           >
-            {asset.tier}
+            {CREATOR_TIER_LABELS[asset.tier]}
           </span>
           <Badge tone="muted" className="border border-[#1e2a44] bg-[#0f172a] text-slate-300">
             {asset.tag}
@@ -53,15 +53,11 @@ export function AssetCard({ asset }: { asset: InvestmentAsset }) {
 
         <div className="grid grid-cols-2 gap-3 rounded-xl border border-[#1e2a44] bg-[#0f172a]/60 p-3">
           <div>
-            <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
-              Token Price
-            </p>
+            <p className="text-[10px] font-medium tracking-wide text-slate-500">מחיר טוקן</p>
             <p className="mt-0.5 text-lg font-bold text-white">${asset.price.toFixed(2)}</p>
           </div>
-          <div className="text-right">
-            <p className="text-[10px] font-medium uppercase tracking-wider text-slate-500">
-              APY / ROI
-            </p>
+          <div className="text-left">
+            <p className="text-[10px] font-medium tracking-wide text-slate-500">תשואה שנתית</p>
             <p className="mt-0.5 inline-flex items-center gap-1 text-lg font-bold text-emerald-400">
               <TrendingUp className="h-4 w-4" aria-hidden />
               +{asset.apy.toFixed(1)}%
@@ -72,8 +68,8 @@ export function AssetCard({ asset }: { asset: InvestmentAsset }) {
         {isPresale && (
           <div className="space-y-2">
             <div className="flex items-center justify-between text-xs">
-              <span className="text-slate-400">Funding progress</span>
-              <span className="font-semibold text-[#3bc1ca]">{asset.presaleProgress}% Funded</span>
+              <span className="text-slate-400">התקדמות גיוס</span>
+              <span className="font-semibold text-[#3bc1ca]">{asset.presaleProgress}% מומן</span>
             </div>
             <ProgressBar value={asset.presaleProgress!} />
           </div>
@@ -83,8 +79,8 @@ export function AssetCard({ asset }: { asset: InvestmentAsset }) {
           type="button"
           className="mt-auto flex w-full items-center justify-center gap-2 rounded-xl border border-[#3bc1ca]/40 bg-[#3bc1ca]/10 py-3 text-sm font-bold text-[#3bc1ca] transition-all hover:border-[#3bc1ca] hover:bg-[#3bc1ca] hover:text-[#070b14]"
         >
-          {isPresale ? 'Invest' : 'View Asset'}
-          <ArrowUpRight className="h-4 w-4" aria-hidden />
+          {isPresale ? 'השקעה' : 'צפייה בנכס'}
+          <ArrowUpLeft className="h-4 w-4" aria-hidden />
         </button>
       </div>
     </article>

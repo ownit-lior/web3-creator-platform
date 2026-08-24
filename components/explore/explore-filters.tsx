@@ -45,14 +45,14 @@ export function ExploreFilters({
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 lg:flex-row lg:items-center lg:justify-between">
         <div className="relative min-w-0 flex-1 lg:max-w-md">
           <Search
-            className="pointer-events-none absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
+            className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-500"
             aria-hidden
           />
           <Input
             value={search}
             onChange={(e) => onSearchChange(e.target.value)}
-            placeholder="Search artist or song..."
-            className="border-[#1e2a44] bg-[#0f172a]/80 pl-10 text-white placeholder:text-slate-500"
+            placeholder="חיפוש אמן או יצירה..."
+            className="border-[#1e2a44] bg-[#0f172a]/80 pr-10 text-white placeholder:text-slate-500"
           />
         </div>
 
@@ -61,7 +61,7 @@ export function ExploreFilters({
             value={genre}
             onChange={(e) => onGenreChange(e.target.value as MusicGenre | 'all')}
             className={selectClassName}
-            aria-label="Filter by genre"
+            aria-label="סינון לפי ז׳אנר"
           >
             {GENRE_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -74,7 +74,7 @@ export function ExploreFilters({
             value={tier}
             onChange={(e) => onTierChange(e.target.value as ArtistTier | 'all')}
             className={selectClassName}
-            aria-label="Filter by artist tier"
+            aria-label="סינון לפי דרגה"
           >
             {TIER_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -87,7 +87,7 @@ export function ExploreFilters({
             value={sort}
             onChange={(e) => onSortChange(e.target.value as SortOption)}
             className={selectClassName}
-            aria-label="Sort assets"
+            aria-label="מיון נכסים"
           >
             {SORT_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
@@ -101,7 +101,7 @@ export function ExploreFilters({
       <div className="mx-auto flex max-w-7xl items-center gap-2 px-4 pb-3 text-xs text-slate-500">
         <SlidersHorizontal className="h-3.5 w-3.5" aria-hidden />
         <span>
-          Showing <span className="font-semibold text-slate-300">{resultCount}</span> music assets
+          מוצגים <span className="font-semibold text-slate-300">{resultCount}</span> נכסים
         </span>
       </div>
     </div>

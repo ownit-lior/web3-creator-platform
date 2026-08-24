@@ -11,22 +11,26 @@ import {
   Vote,
 } from 'lucide-react'
 import { Badge } from '@/components/primitives'
-import type { ClubUtility, CreatorClub } from '@/lib/marketplace-data'
+import {
+  COMMUNITY_TIER_LABELS,
+  type ClubUtility,
+  type CreatorClub,
+} from '@/lib/marketplace-data'
 import { cn } from '@/lib/utils'
 
 const utilityConfig: Record<
   ClubUtility,
   { icon: typeof Vote; label: string; color: string }
 > = {
-  voting: { icon: Vote, label: 'Voting', color: 'text-violet-400' },
+  voting: { icon: Vote, label: 'הצבעה', color: 'text-violet-400' },
   'exclusive-content': {
     icon: Lock,
-    label: 'Exclusive',
+    label: 'תוכן בלעדי',
     color: 'text-[#3bc1ca]',
   },
-  'early-access': { icon: Sparkles, label: 'Early Access', color: 'text-amber-400' },
-  merch: { icon: Gift, label: 'Merch', color: 'text-pink-400' },
-  ama: { icon: MessageCircle, label: 'AMA', color: 'text-sky-400' },
+  'early-access': { icon: Sparkles, label: 'גישה מוקדמת', color: 'text-amber-400' },
+  merch: { icon: Gift, label: 'מרצ׳', color: 'text-pink-400' },
+  ama: { icon: MessageCircle, label: 'שיחה חיה', color: 'text-sky-400' },
 }
 
 const tierStyles: Record<string, string> = {
@@ -37,8 +41,10 @@ const tierStyles: Record<string, string> = {
 }
 
 function formatMembers(count: number): string {
-  if (count >= 1000) return `${(count / 1000).toFixed(1).replace(/\.0$/, '')}K`
-  return count.toLocaleString()
+  if (count >= 1000) {
+    return `${(count / 1000).toFixed(1).replace(/\.0$/, '')}K`
+  }
+  return count.toLocaleString('he-IL')
 }
 
 export function ClubCard({ club }: { club: CreatorClub }) {
@@ -47,7 +53,7 @@ export function ClubCard({ club }: { club: CreatorClub }) {
       <div className="relative aspect-[16/10] overflow-hidden bg-[#0f172a]">
         <Image
           src={club.cover}
-          alt={`${club.name} cover`}
+          alt={`עטיפת ${club.name}`}
           fill
           className="object-cover transition-transform duration-500 group-hover:scale-105"
           sizes="300px"
@@ -56,7 +62,7 @@ export function ClubCard({ club }: { club: CreatorClub }) {
         <div className="absolute bottom-3 left-3 right-3">
           <div className="flex items-center gap-1.5 text-sm font-semibold text-white">
             <Users className="h-4 w-4 text-violet-400" aria-hidden />
-            {formatMembers(club.memberCount)} members
+            {formatMembers(club.memberCount)} חברים
           </div>
         </div>
       </div>
@@ -82,7 +88,7 @@ export function ClubCard({ club }: { club: CreatorClub }) {
             return (
               <span
                 key={utility}
-                className="inline-flex items-center gap-1 rounded-lg border border-[#1e2a44] bg-[#0f172a]/60 px-2 py-1 text-[10px] font-semibold uppercase tracking-wide text-slate-300"
+                className="inline-flex items-center gap-1 rounded-lg border border-[#1e2a44] bg-[#0f172a]/60 px-2 py-1 text-[10px] font-semibold tracking-wide text-slate-300"
               >
                 <Icon className={cn('h-3 w-3', color)} aria-hidden />
                 {label}
@@ -91,24 +97,23 @@ export function ClubCard({ club }: { club: CreatorClub }) {
           })}
         </div>
 
-        {/* Community tier ladder */}
         <div className="rounded-xl border border-[#1e2a44] bg-[#0f172a]/50 p-3">
-          <div className="mb-2 flex items-center gap-1.5 text-[10px] font-bold uppercase tracking-wider text-slate-500">
+          <div className="mb-2 flex items-center gap-1.5 text-[10px] font-bold tracking-wide text-slate-500">
             <Crown className="h-3 w-3 text-amber-400" aria-hidden />
-            Community Tiers
+            דרגות קהילה
           </div>
           <div className="flex flex-wrap gap-1.5">
             {club.tiers.map((tier) => (
               <span
                 key={tier.name}
-                title={`${tier.minTokens}+ tokens: ${tier.perk}`}
+                title={`${tier.minTokens}+ טוקנים: ${tier.perk}`}
                 className={cn(
                   'inline-flex items-center rounded-full border px-2 py-0.5 text-[10px] font-semibold',
                   tierStyles[tier.name],
                 )}
               >
-                {tier.name}
-                <span className="ml-1 opacity-60">{tier.minTokens}+</span>
+                {COMMUNITY_TIER_LABELS[tier.name]}
+                <span className="mr-1 opacity-60">{tier.minTokens}+</span>
               </span>
             ))}
           </div>
@@ -119,7 +124,7 @@ export function ClubCard({ club }: { club: CreatorClub }) {
           className="mt-auto flex w-full items-center justify-center gap-2 rounded-xl border border-violet-500/40 bg-violet-500/10 py-3 text-sm font-bold text-violet-300 transition-all hover:border-violet-400 hover:bg-violet-500 hover:text-white"
         >
           <Users className="h-4 w-4" aria-hidden />
-          Join Club
+          הצטרפות למועדון
         </button>
       </div>
     </article>

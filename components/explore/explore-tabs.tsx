@@ -6,9 +6,9 @@ import { cn } from '@/lib/utils'
 export type ExploreTab = 'investments' | 'clubs' | 'drops'
 
 const TABS: { id: ExploreTab; label: string; icon: typeof Flame }[] = [
-  { id: 'investments', label: 'Hot Investments', icon: Flame },
-  { id: 'clubs', label: 'Creator Clubs', icon: Users },
-  { id: 'drops', label: 'Upcoming Drops', icon: Rocket },
+  { id: 'investments', label: 'השקעות חמות', icon: Flame },
+  { id: 'clubs', label: 'מועדונים וקהילות', icon: Users },
+  { id: 'drops', label: 'השקות קרובות', icon: Rocket },
 ]
 
 type ExploreTabsProps = {
