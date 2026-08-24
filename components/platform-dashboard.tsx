@@ -227,6 +227,22 @@ function InvestorView() {
 
   return (
     <>
+      <Link
+        href="/portfolio"
+        className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-accent/30 bg-accent/10 px-5 py-4 transition-colors hover:bg-accent/15"
+      >
+        <div>
+          <p className="font-display text-lg font-semibold">תיק משקיע</p>
+          <p className="text-sm text-muted-foreground">
+            אסימונים, ROI, תמלוגים ומועדונים — בממשק אחד
+          </p>
+        </div>
+        <span className="inline-flex items-center gap-2 rounded-xl bg-accent px-4 py-2 text-sm font-bold text-accent-foreground">
+          <LayoutDashboard className="size-4" aria-hidden />
+          כניסה לתיק
+        </span>
+      </Link>
+
       <section className="grid gap-4 lg:grid-cols-3">
         <Card className="p-5">
           <p className="mb-4 text-sm font-medium text-muted-foreground">פרטים אישיים</p>
