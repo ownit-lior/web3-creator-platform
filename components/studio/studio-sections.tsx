@@ -15,6 +15,7 @@ import {
 } from 'lucide-react'
 import { PostComposer } from '@/components/studio/post-composer'
 import { StudioStatCards } from '@/components/studio/studio-stat-cards'
+import { TokenomicsCalculator } from '@/components/studio/tokenomics-calculator'
 import { TopShareholders } from '@/components/studio/top-shareholders'
 import { Field, Input } from '@/components/primitives'
 import {
@@ -197,7 +198,11 @@ export function StudioCommunitySection() {
 
 export function StudioCreateDropSection() {
   const [title, setTitle] = useState('')
-  const [equityPct, setEquityPct] = useState('25')
+  const [royaltyEquityPct, setRoyaltyEquityPct] = useState(20)
+  const [raiseAmount, setRaiseAmount] = useState(50_000)
+  const [includeLiquidityPool, setIncludeLiquidityPool] = useState(true)
+  const [platformFeePct, setPlatformFeePct] = useState(7.5)
+  const [vestingMonths, setVestingMonths] = useState(3)
   const [submitted, setSubmitted] = useState(false)
 
   function handleSubmit(e: React.FormEvent) {
@@ -208,83 +213,79 @@ export function StudioCreateDropSection() {
   }
 
   return (
-    <div className="mx-auto max-w-2xl space-y-6">
+    <div className="mx-auto max-w-6xl space-y-6">
       <header>
         <h1 className="font-display text-3xl font-bold text-white">השקה חדשה</h1>
         <p className="mt-1 text-sm text-slate-400">
-          הנפק יצירה חדשה — הגדר שם, תמונת נושא ואחוז equity למכירה
+          הנפק יצירה חדשה — הגדר metadata, טוקנומיקס שקוף, והפעל presale
         </p>
       </header>
 
-      <form
-        onSubmit={handleSubmit}
-        className="space-y-6 rounded-2xl border border-[#1e2a44] bg-[#12192b]/80 p-6 shadow-lg"
-      >
-        <Field label="שם היצירה" htmlFor="drop-title">
-          <Input
-            id="drop-title"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-            placeholder="למשל: חלומות ניאון — EP"
-            className="border-[#1e2a44] bg-[#0f172a]/60 text-white placeholder:text-slate-500"
-          />
-        </Field>
-
-        <div className="space-y-2">
-          <p className="text-sm font-medium text-white">תמונת נושא</p>
-          <button
-            type="button"
-            className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[#1e2a44] bg-[#0f172a]/40 px-4 py-10 text-slate-400 transition-colors hover:border-[#3bc1ca]/40 hover:text-[#3bc1ca]"
-          >
-            <ImagePlus className="h-8 w-8" aria-hidden />
-            <span className="text-sm">גרור/י קובץ או לחץ/י להעלאה</span>
-          </button>
-        </div>
-
-        <Field
-          label="אחוז equity למכירה"
-          htmlFor="drop-equity"
-          hint="כמה אחוזים מהפרויקט את/ה מוכן/ה למכור לקהילה"
-        >
-          <div className="flex items-center gap-3">
+      <form onSubmit={handleSubmit} className="grid gap-6 xl:grid-cols-[minmax(0,1fr)_400px]">
+        <div className="space-y-6 rounded-2xl border border-[#1e2a44] bg-[#12192b]/80 p-6 shadow-lg">
+          <Field label="שם היצירה" htmlFor="drop-title">
             <Input
-              id="drop-equity"
-              type="number"
-              min={1}
-              max={100}
-              value={equityPct}
-              onChange={(e) => setEquityPct(e.target.value)}
-              className="border-[#1e2a44] bg-[#0f172a]/60 text-white"
+              id="drop-title"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+              placeholder="למשל: חלומות ניאון — EP"
+              className="border-[#1e2a44] bg-[#0f172a]/60 text-white placeholder:text-slate-500"
             />
-            <span className="text-sm font-semibold text-[#3bc1ca]">%</span>
+          </Field>
+
+          <div className="space-y-2">
+            <p className="text-sm font-medium text-white">תמונת נושא</p>
+            <button
+              type="button"
+              className="flex w-full flex-col items-center justify-center gap-2 rounded-xl border border-dashed border-[#1e2a44] bg-[#0f172a]/40 px-4 py-10 text-slate-400 transition-colors hover:border-[#3bc1ca]/40 hover:text-[#3bc1ca]"
+            >
+              <ImagePlus className="h-8 w-8" aria-hidden />
+              <span className="text-sm">גרור/י קובץ או לחץ/י להעלאה</span>
+            </button>
           </div>
-        </Field>
 
-        <div className="rounded-xl border border-[#1e2a44]/80 bg-[#0f172a]/40 p-4">
-          <p className="text-xs font-semibold text-slate-400">תצוגה מקדימה</p>
-          <p className="mt-2 text-sm text-white">
-            {title.trim() || 'שם הפרויקט'} · {equityPct}% equity למכירה
-          </p>
-          <p className="mt-1 text-xs text-slate-500">
-            החוזים החכמים וה-mint יופעלו אוטומטית לאחר האישור
-          </p>
+          <div className="rounded-xl border border-[#1e2a44]/80 bg-[#0f172a]/40 p-4">
+            <p className="text-xs font-semibold text-slate-400">תצוגה מקדימה</p>
+            <p className="mt-2 text-sm text-white">
+              {title.trim() || 'שם הפרויקט'} · מוכר/ת {royaltyEquityPct}% מהתמלוגים תמורת{' '}
+              <span dir="ltr">{formatUsd(raiseAmount)}</span>
+            </p>
+            <p className="mt-1 text-xs text-slate-500">
+              החוזים החכמים, mint ו-vesting יופעלו אוטומטית לאחר האישור
+            </p>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-3">
+            <button
+              type="submit"
+              disabled={!title.trim()}
+              className="inline-flex items-center gap-2 rounded-xl border border-[#3bc1ca] bg-[#3bc1ca] px-5 py-3 text-sm font-bold text-[#070b14] transition-all hover:bg-[#5fd4db] disabled:cursor-not-allowed disabled:opacity-40"
+            >
+              <Rocket className="h-4 w-4" aria-hidden />
+              השק presale
+            </button>
+            {submitted && (
+              <span className="text-sm font-semibold text-emerald-400">
+                הפרויקט נשלח לאישור — נודיע כשה-drop יעלה!
+              </span>
+            )}
+          </div>
         </div>
 
-        <div className="flex flex-wrap items-center gap-3">
-          <button
-            type="submit"
-            disabled={!title.trim()}
-            className="inline-flex items-center gap-2 rounded-xl border border-[#3bc1ca] bg-[#3bc1ca] px-5 py-3 text-sm font-bold text-[#070b14] transition-all hover:bg-[#5fd4db] disabled:cursor-not-allowed disabled:opacity-40"
-          >
-            <Rocket className="h-4 w-4" aria-hidden />
-            השק presale
-          </button>
-          {submitted && (
-            <span className="text-sm font-semibold text-emerald-400">
-              הפרויקט נשלח לאישור — נודיע כשה-drop יעלה!
-            </span>
-          )}
-        </div>
+        <aside className="rounded-2xl border border-[#1e2a44] bg-[#12192b]/80 p-6 shadow-lg">
+          <TokenomicsCalculator
+            royaltyEquityPct={royaltyEquityPct}
+            onRoyaltyEquityChange={setRoyaltyEquityPct}
+            raiseAmount={raiseAmount}
+            onRaiseAmountChange={setRaiseAmount}
+            includeLiquidityPool={includeLiquidityPool}
+            onIncludeLiquidityPoolChange={setIncludeLiquidityPool}
+            platformFeePct={platformFeePct}
+            onPlatformFeeChange={setPlatformFeePct}
+            vestingMonths={vestingMonths}
+            onVestingChange={setVestingMonths}
+          />
+        </aside>
       </form>
     </div>
   )
