@@ -1,9 +1,11 @@
 'use client'
 
+import Link from 'next/link'
 import { useMemo, useState } from 'react'
 import {
   ArrowDownRight,
   ArrowUpRight,
+  LayoutDashboard,
   LineChart,
   Music2,
   TrendingUp,
@@ -63,6 +65,22 @@ function ArtistView() {
 
   return (
     <>
+      <Link
+        href="/studio"
+        className="flex flex-wrap items-center justify-between gap-4 rounded-2xl border border-primary/30 bg-primary/10 px-5 py-4 transition-colors hover:bg-primary/15"
+      >
+        <div>
+          <p className="font-display text-lg font-semibold">סטודיו יוצרים</p>
+          <p className="text-sm text-muted-foreground">
+            ניהול drops, קהילה, CRM מעריצים וגיוס — בממשק אחד
+          </p>
+        </div>
+        <span className="inline-flex items-center gap-2 rounded-xl bg-primary px-4 py-2 text-sm font-bold text-primary-foreground">
+          <LayoutDashboard className="size-4" aria-hidden />
+          כניסה לסטודיו
+        </span>
+      </Link>
+
       <section className="grid gap-4 lg:grid-cols-3">
         <Card className="p-5 lg:col-span-1">
           <p className="mb-4 text-sm font-medium text-muted-foreground">פרטים אישיים</p>
