@@ -1,7 +1,7 @@
 import { Analytics } from '@vercel/analytics/next'
 import type { Metadata, Viewport } from 'next'
 import { Rubik, Heebo } from 'next/font/google'
-import { AppThirdwebProvider } from '@/components/thirdweb-provider'
+import { Web3Provider } from '@/components/web3-provider'
 import './globals.css'
 
 const rubik = Rubik({
@@ -42,10 +42,10 @@ export default function RootLayout({
       className={`dark bg-background ${rubik.variable} ${heebo.variable}`}
     >
       <body className="font-sans antialiased">
-        <AppThirdwebProvider>
+        <Web3Provider>
           {children}
           {process.env.NODE_ENV === 'production' && <Analytics />}
-        </AppThirdwebProvider>
+        </Web3Provider>
       </body>
     </html>
   )
