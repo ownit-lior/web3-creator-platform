@@ -146,15 +146,13 @@ export function CreateDropOnchainButton({ params, disabled }: CreateDropOnchainB
         <button
           type="button"
           disabled
-          className="inline-flex cursor-not-allowed items-center gap-2 rounded-xl border border-[#1e2a44] px-5 py-3 text-sm font-bold text-slate-500 opacity-60"
+          title="חיבור לרשת הבלוקצ'יין בטעינה..."
+          className="inline-flex cursor-not-allowed items-center gap-2 rounded-xl border border-[#1e2a44] bg-[#0f172a]/40 px-5 py-3 text-sm font-bold text-slate-500 opacity-40"
         >
           <Rocket className="h-4 w-4" aria-hidden />
           השק on-chain
         </button>
-        <p className="text-xs text-amber-400/90">
-          חסר <code className="text-[10px]">NEXT_PUBLIC_DROP_FACTORY_ADDRESS</code> — פרסו את
-          DropFactory ל-Base Sepolia.
-        </p>
+        <p className="text-xs text-slate-500">חיבור לרשת הבלוקצ׳יין בטעינה…</p>
       </div>
     )
   }

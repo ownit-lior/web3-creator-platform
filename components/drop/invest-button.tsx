@@ -91,10 +91,8 @@ export function InvestButton({ dropId, saleAddress: saleAddressProp, isPresale =
         >
           {isPresale ? 'השקע עכשיו' : 'רכוש אסימונים'}
         </button>
-        <p className="text-center text-[11px] leading-relaxed text-amber-400/90">
-          החוזה ל-drop זה עדיין לא פרוס. הגדירו{' '}
-          <code className="text-[10px] text-slate-400">NEXT_PUBLIC_DROP_SALE_ADDRESSES</code> אחרי
-          deploy.
+        <p className="text-center text-[11px] leading-relaxed text-slate-500">
+          חיבור לרשת הבלוקצ׳יין בטעינה…
         </p>
       </div>
     )

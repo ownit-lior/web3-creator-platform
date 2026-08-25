@@ -81,11 +81,6 @@ export function StudioDashboardOverview({ onCreateDrop }: NavigateProps) {
 
       <StudioStatCards analytics={studioAnalytics} />
 
-      <div className="grid grid-cols-1 gap-6 xl:grid-cols-[minmax(0,1fr)_340px]">
-        <PostComposer />
-        <TopShareholders shareholders={topShareholders} />
-      </div>
-
       <section className="rounded-2xl border border-dashed border-[#1e2a44] bg-[#12192b]/40 p-6">
         <div className="flex flex-wrap items-center justify-between gap-4">
           <div>
@@ -153,7 +148,9 @@ export function StudioDropsSection({ onCreateDrop }: NavigateProps) {
                   style={{ width: `${drop.equitySoldPct}%` }}
                 />
               </div>
-              <p className="text-xs text-slate-500">{drop.equitySoldPct}% equity נמכר</p>
+              <p className="text-xs text-slate-500">
+                {drop.equitySoldPct}% מיעד הגיוס הושלם
+              </p>
             </div>
           </article>
         ))}

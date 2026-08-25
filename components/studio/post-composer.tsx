@@ -46,7 +46,7 @@ export function PostComposer() {
         value={draft}
         onChange={(e) => setDraft(e.target.value)}
         placeholder="שתף/י עדכון, סקיצה, או הזמנה לקהילה…"
-        className="min-h-28 border-[#1e2a44] bg-[#0f172a]/60 text-white placeholder:text-slate-500"
+        className="min-h-28 border border-[#3bc1ca]/40 bg-slate-800/50 text-white placeholder:text-slate-400 focus-visible:border-[#3bc1ca]/70"
       />
 
       <div className="mt-4 flex flex-wrap items-center gap-2">
