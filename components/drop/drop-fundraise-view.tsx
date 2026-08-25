@@ -2,9 +2,10 @@
 
 import Image from 'next/image'
 import Link from 'next/link'
-import { ArrowUpLeft, Compass, ExternalLink, TrendingUp } from 'lucide-react'
+import { Compass, ExternalLink, TrendingUp } from 'lucide-react'
 import { LogoMark } from '@/components/logo'
 import { ProgressBar, Badge } from '@/components/primitives'
+import { InvestButton } from '@/components/drop/invest-button'
 import { TokenomicsTransparencyPanel } from '@/components/tokenomics/tokenomics-transparency-panel'
 import {
   CREATOR_TIER_LABELS,
@@ -114,13 +115,7 @@ export function DropFundraiseView({ drop }: { drop: DropPageDetail }) {
               </div>
             )}
 
-            <button
-              type="button"
-              className="mt-6 flex w-full items-center justify-center gap-2 rounded-xl border border-[#3bc1ca] bg-[#3bc1ca] py-3.5 text-sm font-bold text-[#070b14] transition-all hover:bg-[#5fd4db]"
-            >
-              {isPresale ? 'השקע עכשיו' : 'רכוש אסימונים'}
-              <ArrowUpLeft className="h-4 w-4" aria-hidden />
-            </button>
+            <InvestButton dropId={drop.id} isPresale={Boolean(isPresale)} />
             <p className="mt-3 text-center text-[10px] text-slate-500">
               מוכר {tokenomics.royaltyEquityPct}% מהתמלוגים · חוזה חכם on-chain
             </p>

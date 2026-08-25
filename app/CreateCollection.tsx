@@ -1,11 +1,11 @@
 "use client";
 
-import { useActiveAccount } from "thirdweb/react";
+import { useAccount } from "wagmi";
 
 export default function CreateCollection() {
-  const account = useActiveAccount();
+  const { address } = useAccount();
 
-  if (!account) return null;
+  if (!address) return null;
 
   return (
     <div className="flex flex-col items-center gap-6 mt-8 bg-slate-900/80 p-10 rounded-2xl border border-slate-700/50 shadow-2xl w-full backdrop-blur-sm">

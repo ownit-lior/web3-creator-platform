@@ -1,9 +1,9 @@
 "use client";
 
-import { useActiveAccount, useDisconnect } from "thirdweb/react";
+import { useAccount, useDisconnect } from "wagmi";
 
 export function ProfileWalletView({ userProfile, userRole }: { userProfile: any; userRole: string }) {
-  const account = useActiveAccount();
+  const { address } = useAccount();
   const { disconnect } = useDisconnect();
 
   return (
@@ -31,14 +31,12 @@ export function ProfileWalletView({ userProfile, userRole }: { userProfile: any;
             </span>
           </div>
           <p className="text-slate-400 font-mono text-sm bg-slate-950/50 inline-block px-4 py-1.5 rounded-lg border border-slate-800">
-            {account?.address}
+            {address}
           </p>
         </div>
 
         <button 
-          onClick={() => {
-            if (account) disconnect(account.wallet);
-          }}
+          onClick={() => disconnect()}
           className="z-10 bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/20 px-6 py-3 rounded-xl font-bold transition-colors"
         >
           התנתק מהמערכת
