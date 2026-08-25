@@ -1,15 +1,34 @@
 /**
  * VIBE on-chain config — Base Sepolia (dev) / Base (prod).
- * Fill addresses after running `forge script script/Deploy.s.sol`.
+ * Set NEXT_PUBLIC_DROP_FACTORY_ADDRESS after forge deploy.
+ * Optional per-drop sales: NEXT_PUBLIC_DROP_SALE_ADDRESSES={"inv-m1":"0x..."}
  */
-import { base, baseSepolia } from './chains'
+import { base, baseSepolia } from '@/lib/chains'
 
 export const DROP_FACTORY_ADDRESS: Record<number, `0x${string}` | undefined> = {
-  [baseSepolia.id]: undefined, // TODO: set after deploy
-  [base.id]: undefined,
+  [baseSepolia.id]: (process.env.NEXT_PUBLIC_DROP_FACTORY_ADDRESS as `0x${string}` | undefined)
+    || undefined,
+  [base.id]: (process.env.NEXT_PUBLIC_DROP_FACTORY_ADDRESS_MAINNET as `0x${string}` | undefined)
+    || undefined,
 }
 
-/** Minimal ABIs for frontend reads/writes */
+/** Parse optional JSON map of dropId → DropSale address */
+export function getDropSaleAddress(dropId: string): `0x${string}` | undefined {
+  const raw = process.env.NEXT_PUBLIC_DROP_SALE_ADDRESSES
+  if (!raw) return undefined
+  try {
+    const map = JSON.parse(raw) as Record<string, string>
+    const addr = map[dropId]
+    return addr?.startsWith('0x') ? (addr as `0x${string}`) : undefined
+  } catch {
+    return undefined
+  }
+}
+
+export function getFactoryAddress(chainId: number): `0x${string}` | undefined {
+  return DROP_FACTORY_ADDRESS[chainId]
+}
+
 export const dropFactoryAbi = [
   {
     type: 'function',
@@ -69,6 +88,23 @@ export const dropFactoryAbi = [
     outputs: [{ name: '', type: 'uint256' }],
   },
   {
+    type: 'function',
+    name: 'CREATOR_ROLE',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ type: 'bytes32' }],
+  },
+  {
+    type: 'function',
+    name: 'hasRole',
+    stateMutability: 'view',
+    inputs: [
+      { name: 'role', type: 'bytes32' },
+      { name: 'account', type: 'address' },
+    ],
+    outputs: [{ type: 'bool' }],
+  },
+  {
     type: 'event',
     name: 'DropCreated',
     inputs: [
@@ -123,6 +159,20 @@ export const dropSaleAbi = [
     stateMutability: 'view',
     inputs: [],
     outputs: [{ type: 'uint256' }],
+  },
+  {
+    type: 'function',
+    name: 'tokensForSale',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ type: 'uint256' }],
+  },
+  {
+    type: 'function',
+    name: 'finalized',
+    stateMutability: 'view',
+    inputs: [],
+    outputs: [{ type: 'bool' }],
   },
 ] as const
 
@@ -189,3 +239,6 @@ export const secondaryMarketAbi = [
 export function pctToBps(pct: number): number {
   return Math.round(pct * 100)
 }
+
+/** Demo ETH/USD rate for converting studio USD raise targets to wei. */
+export const DEMO_ETH_USD = 3_000

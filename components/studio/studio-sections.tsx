@@ -16,6 +16,7 @@ import {
 import { PostComposer } from '@/components/studio/post-composer'
 import { StudioStatCards } from '@/components/studio/studio-stat-cards'
 import { TokenomicsCalculator } from '@/components/studio/tokenomics-calculator'
+import { CreateDropOnchainButton } from '@/components/studio/create-drop-onchain-button'
 import { TopShareholders } from '@/components/studio/top-shareholders'
 import { Field, Input } from '@/components/primitives'
 import {
@@ -198,6 +199,7 @@ export function StudioCommunitySection() {
 
 export function StudioCreateDropSection() {
   const [title, setTitle] = useState('')
+  const [tokenSymbol, setTokenSymbol] = useState('NOVA')
   const [royaltyEquityPct, setRoyaltyEquityPct] = useState(20)
   const [raiseAmount, setRaiseAmount] = useState(50_000)
   const [includeLiquidityPool, setIncludeLiquidityPool] = useState(true)
@@ -217,7 +219,7 @@ export function StudioCreateDropSection() {
       <header>
         <h1 className="font-display text-3xl font-bold text-white">השקה חדשה</h1>
         <p className="mt-1 text-sm text-slate-400">
-          הנפק יצירה חדשה — הגדר metadata, טוקנומיקס שקוף, והפעל presale
+          הנפק יצירה חדשה — הגדר metadata, טוקנומיקס שקוף, והפעל DropSale on-chain
         </p>
       </header>
 
@@ -230,6 +232,18 @@ export function StudioCreateDropSection() {
               onChange={(e) => setTitle(e.target.value)}
               placeholder="למשל: חלומות ניאון — EP"
               className="border-[#1e2a44] bg-[#0f172a]/60 text-white placeholder:text-slate-500"
+            />
+          </Field>
+
+          <Field label="סמל אסימון" htmlFor="drop-symbol" hint="עד 8 תווים · יופיע on-chain">
+            <Input
+              id="drop-symbol"
+              value={tokenSymbol}
+              onChange={(e) => setTokenSymbol(e.target.value.toUpperCase())}
+              placeholder="NOVA"
+              maxLength={8}
+              className="border-[#1e2a44] bg-[#0f172a]/60 text-white placeholder:text-slate-500"
+              dir="ltr"
             />
           </Field>
 
@@ -247,28 +261,41 @@ export function StudioCreateDropSection() {
           <div className="rounded-xl border border-[#1e2a44]/80 bg-[#0f172a]/40 p-4">
             <p className="text-xs font-semibold text-slate-400">תצוגה מקדימה</p>
             <p className="mt-2 text-sm text-white">
-              {title.trim() || 'שם הפרויקט'} · מוכר/ת {royaltyEquityPct}% מהתמלוגים תמורת{' '}
+              {title.trim() || 'שם הפרויקט'} · ${tokenSymbol || 'TOKEN'} · מוכר/ת{' '}
+              {royaltyEquityPct}% מהתמלוגים תמורת{' '}
               <span dir="ltr">{formatUsd(raiseAmount)}</span>
             </p>
             <p className="mt-1 text-xs text-slate-500">
-              החוזים החכמים, mint ו-vesting יופעלו אוטומטית לאחר האישור
+              DropFactory.createDrop → ShareToken + DropSale + RoyaltyVault
             </p>
           </div>
 
-          <div className="flex flex-wrap items-center gap-3">
-            <button
-              type="submit"
+          <div className="flex flex-col gap-4">
+            <CreateDropOnchainButton
               disabled={!title.trim()}
-              className="inline-flex items-center gap-2 rounded-xl border border-[#3bc1ca] bg-[#3bc1ca] px-5 py-3 text-sm font-bold text-[#070b14] transition-all hover:bg-[#5fd4db] disabled:cursor-not-allowed disabled:opacity-40"
-            >
-              <Rocket className="h-4 w-4" aria-hidden />
-              השק presale
-            </button>
-            {submitted && (
-              <span className="text-sm font-semibold text-emerald-400">
-                הפרויקט נשלח לאישור — נודיע כשה-drop יעלה!
-              </span>
-            )}
+              params={{
+                title,
+                tokenSymbol,
+                royaltyEquityPct,
+                raiseAmountUsd: raiseAmount,
+                includeLiquidityPool,
+                platformFeePct,
+                vestingMonths,
+              }}
+            />
+
+            <div className="flex flex-wrap items-center gap-3 border-t border-[#1e2a44]/60 pt-4">
+              <button
+                type="submit"
+                disabled={!title.trim()}
+                className="inline-flex items-center gap-2 rounded-xl border border-[#1e2a44] px-4 py-2.5 text-sm font-semibold text-slate-300 transition-colors hover:border-[#3bc1ca]/40 hover:text-[#3bc1ca] disabled:cursor-not-allowed disabled:opacity-40"
+              >
+                שמור טיוטה (דמו)
+              </button>
+              {submitted && (
+                <span className="text-sm font-semibold text-slate-400">הטיוטה נשמרה מקומית</span>
+              )}
+            </div>
           </div>
         </div>
 
