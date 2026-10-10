@@ -9,14 +9,14 @@ const systems = [
     title: 'בית חכם ואוטומציה',
     body: 'שליטה בתאורה, בתריסים, במיזוג ובמערכות נוספות, בהתאם לצורכי הבית.',
     image: '/aura/automation.jpg',
-    alt: 'חלל מגורים מודרני עם תאורה טבעית',
+    alt: 'בית מודרני עם תאורה חמה בשעת ערב',
   },
   {
     id: 'av',
     title: 'אודיו־וידאו וקולנוע ביתי',
     body: 'מערכות שמע, מסכים וקולנוע ביתי בתכנון מוקפד, עם התייחסות לאקוסטיקה, למיקום הרמקולים ולעיצוב.',
     image: '/aura/cinema.jpg',
-    alt: 'חלל קולנוע ביתי מעוצב',
+    alt: 'חלל מגורים עם מסך ומערכת שמע',
   },
   {
     id: 'network',
@@ -30,7 +30,41 @@ const systems = [
     title: 'אבטחה ובקרת כניסה',
     body: 'מצלמות, מערכות הקלטה ובקרת כניסה המותאמות לנכס ולצורכי האבטחה.',
     image: '/aura/security.jpg',
-    alt: 'כניסה לבית עם בקרת גישה',
+    alt: 'בקרת כניסה לנכס',
+  },
+] as const
+
+const approachPoints = [
+  'תכנון בהתאם לצרכים ולתקציב הפרויקט.',
+  'התייחסות לתשתיות כבר בשלבים המוקדמים.',
+  'תיאום בין המערכות ובין הגורמים המעורבים בפרויקט.',
+  'התקנה, הגדרות והדרכה בהתאם להיקף השירות שסוכם.',
+] as const
+
+const projects = [
+  {
+    id: 'villa-sharon',
+    title: 'וילה בשרון',
+    scope: 'בית חכם · אודיו־וידאו · אבטחה',
+    body: 'תכנון מערכות מקצה לקצה — מתשתיות ועד קולנוע ביתי ובקרת כניסה.',
+    image: '/aura/project-villa.jpg',
+    alt: 'וילה מודרנית בפרויקט INOVIX',
+  },
+  {
+    id: 'apt-tlv',
+    title: 'דירת פנטהאוז בתל אביב',
+    scope: 'אוטומציה · רשת · שמע רב־אזורי',
+    body: 'אינטגרציה שקטה בחלל קיים — בלי להתפשר על עיצוב או ביצועי רשת.',
+    image: '/aura/project-apt.jpg',
+    alt: 'פנטהאוז עם תכנון מערכות משולב',
+  },
+  {
+    id: 'office-center',
+    title: 'משרדים במרכז',
+    scope: 'תקשורת · בקרת כניסה · תצוגות',
+    body: 'תשתיות ותפעול יומיומי שמתואמים לעובדים, לאורחים ולצוות הניהול.',
+    image: '/aura/project-office.jpg',
+    alt: 'חלל משרדים עם תשתיות ותצוגות',
   },
 ] as const
 
@@ -48,7 +82,7 @@ function useReveal<T extends HTMLElement>() {
           observer.disconnect()
         }
       },
-      { threshold: 0.18, rootMargin: '0px 0px -8% 0px' },
+      { threshold: 0.16, rootMargin: '0px 0px -8% 0px' },
     )
     observer.observe(el)
     return () => observer.disconnect()
@@ -59,7 +93,9 @@ function useReveal<T extends HTMLElement>() {
 
 export function AuraLanding() {
   const [heroReady, setHeroReady] = useState(false)
+  const approachReveal = useReveal<HTMLElement>()
   const systemsReveal = useReveal<HTMLElement>()
+  const projectsReveal = useReveal<HTMLElement>()
 
   useEffect(() => {
     const id = window.setTimeout(() => setHeroReady(true), 60)
@@ -70,14 +106,22 @@ export function AuraLanding() {
     <div className="aura-page min-h-screen bg-[var(--aura-surface)] text-[var(--aura-ink)]">
       <header className="absolute inset-x-0 top-0 z-20">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8 sm:py-7">
-          <a
-            href="#contact"
-            className="text-[0.72rem] font-medium tracking-[0.18em] text-white/85 transition hover:text-white"
-          >
-            צור קשר
-          </a>
-          <span className="font-[family-name:var(--font-aura-brand)] text-[1.35rem] font-medium tracking-[0.28em] text-white sm:text-[1.5rem]">
-            AURA
+          <nav className="flex items-center gap-5 text-[0.72rem] font-medium tracking-[0.14em] text-white/85">
+            <a href="#approach" className="transition hover:text-white">
+              הגישה
+            </a>
+            <a href="#systems" className="hidden transition hover:text-white sm:inline">
+              מערכות
+            </a>
+            <a href="#projects" className="transition hover:text-white">
+              פרויקטים
+            </a>
+            <a href="#contact" className="transition hover:text-white">
+              צור קשר
+            </a>
+          </nav>
+          <span className="font-[family-name:var(--font-aura-brand)] text-[1.25rem] font-medium tracking-[0.22em] text-white sm:text-[1.45rem]">
+            INOVIX
           </span>
         </div>
       </header>
@@ -90,14 +134,14 @@ export function AuraLanding() {
         >
           <Image
             src="/aura/hero-living.jpg"
-            alt="סלון מעוצב עם אור רך — הבית כמערכת אחת"
+            alt="חלל מגורים מעוצב — מערכות הבית כפתרון אחד"
             fill
             priority
             className="object-cover object-center"
             sizes="100vw"
           />
         </div>
-        <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(18,16,14,0.78)_0%,rgba(18,16,14,0.45)_48%,rgba(18,16,14,0.22)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(105deg,rgba(18,16,14,0.8)_0%,rgba(18,16,14,0.48)_50%,rgba(18,16,14,0.22)_100%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_70%_40%,transparent_20%,rgba(12,11,10,0.35)_100%)]" />
 
         <div className="relative z-10 flex min-h-[100svh] items-end px-5 pb-16 pt-28 sm:items-center sm:px-8 sm:pb-24 sm:pt-20">
@@ -108,21 +152,21 @@ export function AuraLanding() {
                 : 'translate-y-6 opacity-0'
             }`}
           >
-            <p className="mb-5 font-[family-name:var(--font-aura-brand)] text-[clamp(2.8rem,9vw,5.5rem)] font-medium leading-none tracking-[0.22em] text-white">
-              AURA
+            <p className="mb-5 font-[family-name:var(--font-aura-brand)] text-[clamp(2.4rem,8vw,4.8rem)] font-medium leading-none tracking-[0.2em] text-white">
+              INOVIX
             </p>
-            <h1 className="max-w-xl font-[family-name:var(--font-aura-display)] text-[clamp(1.85rem,4.6vw,3.15rem)] font-medium leading-[1.2] text-white">
+            <h1 className="max-w-2xl font-[family-name:var(--font-aura-display)] text-[clamp(1.75rem,4.4vw,3rem)] font-medium leading-[1.22] text-white">
               כל המערכות. תכנון אחד.
             </h1>
             <p
-              className={`mt-5 max-w-md text-[1.02rem] leading-relaxed text-white/78 transition-all delay-200 duration-1000 ease-out sm:text-[1.08rem] ${
+              className={`mt-5 max-w-lg text-[1.02rem] leading-relaxed text-white/78 transition-all delay-200 duration-1000 ease-out sm:text-[1.08rem] ${
                 heroReady
                   ? 'translate-y-0 opacity-100'
                   : 'translate-y-4 opacity-0'
               }`}
             >
-              בית חכם, אודיו־וידאו, תשתיות ואבטחה — כמערכת אחת שמתאימה לנכס
-              ולאיך שאתם חיים בו.
+              לא רק מתקינים מערכות — מחברים אותן לפתרון אחד שמתאים לנכס
+              ולפרויקט.
             </p>
             <div
               className={`mt-9 flex flex-wrap items-center gap-4 transition-all delay-300 duration-1000 ease-out ${
@@ -132,10 +176,10 @@ export function AuraLanding() {
               }`}
             >
               <a
-                href="#systems"
+                href="#approach"
                 className="inline-flex items-center justify-center bg-[var(--aura-brass)] px-7 py-3.5 text-[0.95rem] font-medium text-[var(--aura-ink)] transition hover:bg-[var(--aura-brass-soft)]"
               >
-                להכיר את המערכות
+                איך אנחנו עובדים
               </a>
               <a
                 href="#contact"
@@ -159,9 +203,63 @@ export function AuraLanding() {
       </section>
 
       <section
+        id="approach"
+        ref={approachReveal.ref}
+        className="border-t border-[var(--aura-line)] bg-[var(--aura-surface)]"
+      >
+        <div className="mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+          <div
+            className={`transition-all duration-700 ease-out ${
+              approachReveal.visible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-5 opacity-0'
+            }`}
+          >
+            <p className="mb-3 text-[0.72rem] font-medium tracking-[0.2em] text-[var(--aura-brass)]">
+              הגישה
+            </p>
+            <h2 className="font-[family-name:var(--font-aura-display)] text-[clamp(1.65rem,3.3vw,2.4rem)] font-medium leading-snug text-[var(--aura-ink)]">
+              לא רק מתקינים מערכות. מחברים אותן לפתרון אחד.
+            </h2>
+            <p className="mt-5 max-w-xl text-[1.05rem] leading-relaxed text-[var(--aura-muted)]">
+              כשמערכות שונות מתוכננות בנפרד, עלולים להיווצר פערים בתשתיות,
+              בתפעול ובתיאום בין בעלי המקצוע.
+            </p>
+            <p className="mt-4 max-w-xl text-[1.05rem] leading-relaxed text-[var(--aura-ink)]/85">
+              ב־INOVIX אנחנו מסתכלים על התמונה המלאה: מבינים את צורכי הפרויקט,
+              מתכננים את המערכות בהתאמה ומשתדלים לוודא שכל רכיב משתלב בתכנון
+              הכולל.
+            </p>
+          </div>
+
+          <ul
+            className={`flex flex-col justify-center gap-0 border-t border-[var(--aura-line)] transition-all delay-150 duration-700 ease-out ${
+              approachReveal.visible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-5 opacity-0'
+            }`}
+          >
+            {approachPoints.map((point, index) => (
+              <li
+                key={point}
+                className="flex gap-4 border-b border-[var(--aura-line)] py-5"
+              >
+                <span className="font-[family-name:var(--font-aura-brand)] text-[0.75rem] tracking-[0.2em] text-[var(--aura-brass)]">
+                  {String(index + 1).padStart(2, '0')}
+                </span>
+                <p className="text-[1.02rem] leading-relaxed text-[var(--aura-ink)]">
+                  {point}
+                </p>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
+      <section
         id="systems"
         ref={systemsReveal.ref}
-        className="border-t border-[var(--aura-line)] bg-[var(--aura-surface)]"
+        className="border-t border-[var(--aura-line)] bg-[var(--aura-mist)]"
       >
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
           <div
@@ -193,6 +291,71 @@ export function AuraLanding() {
       </section>
 
       <section
+        id="projects"
+        ref={projectsReveal.ref}
+        className="border-t border-[var(--aura-line)] bg-[var(--aura-surface)]"
+      >
+        <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
+          <div
+            className={`max-w-2xl transition-all duration-700 ease-out ${
+              projectsReveal.visible
+                ? 'translate-y-0 opacity-100'
+                : 'translate-y-5 opacity-0'
+            }`}
+          >
+            <p className="mb-3 text-[0.72rem] font-medium tracking-[0.2em] text-[var(--aura-brass)]">
+              פרויקטים
+            </p>
+            <h2 className="font-[family-name:var(--font-aura-display)] text-[clamp(1.7rem,3.4vw,2.45rem)] font-medium leading-snug text-[var(--aura-ink)]">
+              מהשטח — כשהמערכות עובדות יחד.
+            </h2>
+          </div>
+
+          <div className="mt-12 flex flex-col border-t border-[var(--aura-line)]">
+            {projects.map((project, index) => (
+              <article
+                key={project.id}
+                className={`grid gap-0 border-b border-[var(--aura-line)] lg:grid-cols-[1.15fr_0.85fr] ${
+                  projectsReveal.visible
+                    ? 'translate-y-0 opacity-100'
+                    : 'translate-y-5 opacity-0'
+                }`}
+                style={{
+                  transitionDelay: projectsReveal.visible
+                    ? `${index * 90}ms`
+                    : '0ms',
+                  transitionProperty: 'opacity, transform',
+                  transitionDuration: '700ms',
+                  transitionTimingFunction: 'ease-out',
+                }}
+              >
+                <div className="relative min-h-[240px] overflow-hidden sm:min-h-[300px]">
+                  <Image
+                    src={project.image}
+                    alt={project.alt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 1024px) 100vw, 55vw"
+                  />
+                </div>
+                <div className="flex flex-col justify-center px-5 py-10 sm:px-10 lg:px-12">
+                  <p className="text-[0.78rem] tracking-[0.12em] text-[var(--aura-brass)]">
+                    {project.scope}
+                  </p>
+                  <h3 className="mt-3 font-[family-name:var(--font-aura-display)] text-[clamp(1.35rem,2.4vw,1.75rem)] font-medium text-[var(--aura-ink)]">
+                    {project.title}
+                  </h3>
+                  <p className="mt-3 max-w-md text-[1rem] leading-relaxed text-[var(--aura-muted)]">
+                    {project.body}
+                  </p>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section
         id="contact"
         className="relative overflow-hidden border-t border-[var(--aura-line)] bg-[var(--aura-ink)] text-white"
       >
@@ -200,10 +363,10 @@ export function AuraLanding() {
         <div className="relative mx-auto flex max-w-6xl flex-col gap-8 px-5 py-20 sm:flex-row sm:items-end sm:justify-between sm:px-8 sm:py-28">
           <div className="max-w-xl">
             <p className="mb-3 font-[family-name:var(--font-aura-brand)] text-[0.8rem] tracking-[0.28em] text-[var(--aura-brass-soft)]">
-              AURA
+              INOVIX
             </p>
             <h2 className="font-[family-name:var(--font-aura-display)] text-[clamp(1.7rem,3.5vw,2.5rem)] font-medium leading-snug">
-              נתחיל מתכנון שמתאים לבית שלכם.
+              נתחיל מתכנון שמתאים לפרויקט שלכם.
             </h2>
             <p className="mt-4 max-w-md text-[1rem] leading-relaxed text-white/70">
               שיחת היכרות קצרה — נבין את הנכס, את הצרכים ואת סדר העדיפויות, ונבנה
@@ -211,16 +374,16 @@ export function AuraLanding() {
             </p>
           </div>
           <a
-            href="mailto:hello@aura.living"
+            href="mailto:hello@inovix.co.il"
             className="inline-flex shrink-0 items-center justify-center bg-[var(--aura-brass)] px-8 py-3.5 text-[0.95rem] font-medium text-[var(--aura-ink)] transition hover:bg-[var(--aura-brass-soft)]"
           >
-            hello@aura.living
+            hello@inovix.co.il
           </a>
         </div>
       </section>
 
       <footer className="border-t border-white/10 bg-[var(--aura-ink)] px-5 py-6 text-center text-[0.75rem] text-white/40 sm:px-8">
-        © {new Date().getFullYear()} AURA Smart Living
+        © {new Date().getFullYear()} INOVIX
       </footer>
     </div>
   )
