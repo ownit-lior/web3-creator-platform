@@ -93,6 +93,7 @@ function useReveal<T extends HTMLElement>() {
 
 export function AuraLanding() {
   const [heroReady, setHeroReady] = useState(false)
+  const [navSolid, setNavSolid] = useState(false)
   const approachReveal = useReveal<HTMLElement>()
   const systemsReveal = useReveal<HTMLElement>()
   const projectsReveal = useReveal<HTMLElement>()
@@ -102,27 +103,61 @@ export function AuraLanding() {
     return () => window.clearTimeout(id)
   }, [])
 
+  useEffect(() => {
+    const onScroll = () => setNavSolid(window.scrollY > window.innerHeight * 0.72)
+    onScroll()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   return (
     <div className="aura-page min-h-screen bg-[var(--aura-surface)] text-[var(--aura-ink)]">
-      <header className="absolute inset-x-0 top-0 z-20">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8 sm:py-7">
-          <nav className="flex items-center gap-5 text-[0.72rem] font-medium tracking-[0.14em] text-white/85">
-            <a href="#approach" className="transition hover:text-white">
+      <header
+        className={`fixed inset-x-0 top-0 z-30 transition-colors duration-300 ${
+          navSolid
+            ? 'border-b border-[var(--aura-line)] bg-[var(--aura-surface)]/92 backdrop-blur-md'
+            : 'bg-transparent'
+        }`}
+      >
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-5 py-5 sm:px-8 sm:py-6">
+          <nav
+            className={`flex items-center gap-5 text-[0.72rem] font-medium tracking-[0.14em] ${
+              navSolid ? 'text-[var(--aura-ink)]/75' : 'text-white/85'
+            }`}
+          >
+            <a
+              href="#approach"
+              className={`transition ${navSolid ? 'hover:text-[var(--aura-ink)]' : 'hover:text-white'}`}
+            >
               הגישה
             </a>
-            <a href="#systems" className="hidden transition hover:text-white sm:inline">
+            <a
+              href="#systems"
+              className={`hidden transition sm:inline ${navSolid ? 'hover:text-[var(--aura-ink)]' : 'hover:text-white'}`}
+            >
               מערכות
             </a>
-            <a href="#projects" className="transition hover:text-white">
+            <a
+              href="#projects"
+              className={`transition ${navSolid ? 'hover:text-[var(--aura-ink)]' : 'hover:text-white'}`}
+            >
               פרויקטים
             </a>
-            <a href="#contact" className="transition hover:text-white">
+            <a
+              href="#contact"
+              className={`transition ${navSolid ? 'hover:text-[var(--aura-ink)]' : 'hover:text-white'}`}
+            >
               צור קשר
             </a>
           </nav>
-          <span className="font-[family-name:var(--font-aura-brand)] text-[1.25rem] font-medium tracking-[0.22em] text-white sm:text-[1.45rem]">
+          <a
+            href="#"
+            className={`font-[family-name:var(--font-aura-brand)] text-[1.25rem] font-medium tracking-[0.22em] sm:text-[1.45rem] ${
+              navSolid ? 'text-[var(--aura-ink)]' : 'text-white'
+            }`}
+          >
             INOVIX
-          </span>
+          </a>
         </div>
       </header>
 
@@ -205,7 +240,7 @@ export function AuraLanding() {
       <section
         id="approach"
         ref={approachReveal.ref}
-        className="border-t border-[var(--aura-line)] bg-[var(--aura-surface)]"
+        className="scroll-mt-24 border-t border-[var(--aura-line)] bg-[var(--aura-surface)]"
       >
         <div className="mx-auto grid max-w-6xl gap-12 px-5 py-16 sm:px-8 sm:py-24 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
           <div
@@ -259,7 +294,7 @@ export function AuraLanding() {
       <section
         id="systems"
         ref={systemsReveal.ref}
-        className="border-t border-[var(--aura-line)] bg-[var(--aura-mist)]"
+        className="scroll-mt-24 border-t border-[var(--aura-line)] bg-[var(--aura-mist)]"
       >
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
           <div
@@ -293,7 +328,7 @@ export function AuraLanding() {
       <section
         id="projects"
         ref={projectsReveal.ref}
-        className="border-t border-[var(--aura-line)] bg-[var(--aura-surface)]"
+        className="scroll-mt-24 border-t border-[var(--aura-line)] bg-[var(--aura-surface)]"
       >
         <div className="mx-auto max-w-6xl px-5 py-16 sm:px-8 sm:py-24">
           <div
@@ -309,55 +344,28 @@ export function AuraLanding() {
             <h2 className="font-[family-name:var(--font-aura-display)] text-[clamp(1.7rem,3.4vw,2.45rem)] font-medium leading-snug text-[var(--aura-ink)]">
               מהשטח — כשהמערכות עובדות יחד.
             </h2>
+            <p className="mt-4 max-w-lg text-[1.02rem] leading-relaxed text-[var(--aura-muted)]">
+              מבחר פרויקטים שבהם תכנון המערכות, התשתיות והתיאום בין הגורמים
+              נבנו כמכלול אחד.
+            </p>
           </div>
+        </div>
 
-          <div className="mt-12 flex flex-col border-t border-[var(--aura-line)]">
-            {projects.map((project, index) => (
-              <article
-                key={project.id}
-                className={`grid gap-0 border-b border-[var(--aura-line)] lg:grid-cols-[1.15fr_0.85fr] ${
-                  projectsReveal.visible
-                    ? 'translate-y-0 opacity-100'
-                    : 'translate-y-5 opacity-0'
-                }`}
-                style={{
-                  transitionDelay: projectsReveal.visible
-                    ? `${index * 90}ms`
-                    : '0ms',
-                  transitionProperty: 'opacity, transform',
-                  transitionDuration: '700ms',
-                  transitionTimingFunction: 'ease-out',
-                }}
-              >
-                <div className="relative min-h-[240px] overflow-hidden sm:min-h-[300px]">
-                  <Image
-                    src={project.image}
-                    alt={project.alt}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 1024px) 100vw, 55vw"
-                  />
-                </div>
-                <div className="flex flex-col justify-center px-5 py-10 sm:px-10 lg:px-12">
-                  <p className="text-[0.78rem] tracking-[0.12em] text-[var(--aura-brass)]">
-                    {project.scope}
-                  </p>
-                  <h3 className="mt-3 font-[family-name:var(--font-aura-display)] text-[clamp(1.35rem,2.4vw,1.75rem)] font-medium text-[var(--aura-ink)]">
-                    {project.title}
-                  </h3>
-                  <p className="mt-3 max-w-md text-[1rem] leading-relaxed text-[var(--aura-muted)]">
-                    {project.body}
-                  </p>
-                </div>
-              </article>
-            ))}
-          </div>
+        <div className="flex flex-col">
+          {projects.map((project, index) => (
+            <ProjectBlock
+              key={project.id}
+              project={project}
+              index={index}
+              reverse={index % 2 === 1}
+            />
+          ))}
         </div>
       </section>
 
       <section
         id="contact"
-        className="relative overflow-hidden border-t border-[var(--aura-line)] bg-[var(--aura-ink)] text-white"
+        className="relative scroll-mt-24 overflow-hidden border-t border-[var(--aura-line)] bg-[var(--aura-ink)] text-white"
       >
         <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_0%,rgba(168,132,79,0.18),transparent_55%)]" />
         <div className="relative mx-auto flex max-w-6xl flex-col gap-8 px-5 py-20 sm:flex-row sm:items-end sm:justify-between sm:px-8 sm:py-28">
@@ -404,7 +412,7 @@ function SystemBlock({
     <article
       id={system.id}
       ref={ref}
-      className={`border-t border-[var(--aura-line)] ${
+      className={`scroll-mt-24 border-t border-[var(--aura-line)] ${
         index % 2 === 0 ? 'bg-[var(--aura-surface)]' : 'bg-[var(--aura-mist)]'
       }`}
     >
@@ -438,6 +446,63 @@ function SystemBlock({
           </h3>
           <p className="mt-4 max-w-md text-[1.02rem] leading-relaxed text-[var(--aura-muted)]">
             {system.body}
+          </p>
+        </div>
+      </div>
+    </article>
+  )
+}
+
+function ProjectBlock({
+  project,
+  index,
+  reverse,
+}: {
+  project: (typeof projects)[number]
+  index: number
+  reverse: boolean
+}) {
+  const { ref, visible } = useReveal<HTMLElement>()
+
+  return (
+    <article
+      ref={ref}
+      className={`border-t border-[var(--aura-line)] ${
+        index % 2 === 0 ? 'bg-[var(--aura-mist)]' : 'bg-[var(--aura-surface)]'
+      }`}
+    >
+      <div
+        className={`mx-auto grid max-w-6xl items-stretch gap-0 lg:grid-cols-2 ${
+          reverse ? 'lg:[&>div:first-child]:order-2' : ''
+        }`}
+      >
+        <div className="relative min-h-[280px] overflow-hidden sm:min-h-[340px] lg:min-h-[420px]">
+          <Image
+            src={project.image}
+            alt={project.alt}
+            fill
+            className={`object-cover transition-transform duration-[1.4s] ease-out ${
+              visible ? 'scale-100' : 'scale-105'
+            }`}
+            sizes="(max-width: 1024px) 100vw, 50vw"
+          />
+        </div>
+        <div
+          className={`flex flex-col justify-center px-5 py-12 sm:px-10 sm:py-16 lg:px-14 transition-all duration-700 ease-out ${
+            visible ? 'translate-y-0 opacity-100' : 'translate-y-6 opacity-0'
+          }`}
+        >
+          <span className="mb-4 font-[family-name:var(--font-aura-brand)] text-[0.75rem] tracking-[0.28em] text-[var(--aura-brass)]">
+            {String(index + 1).padStart(2, '0')}
+          </span>
+          <p className="text-[0.8rem] tracking-[0.1em] text-[var(--aura-muted)]">
+            {project.scope}
+          </p>
+          <h3 className="mt-3 font-[family-name:var(--font-aura-display)] text-[clamp(1.4rem,2.5vw,1.85rem)] font-medium leading-snug text-[var(--aura-ink)]">
+            {project.title}
+          </h3>
+          <p className="mt-4 max-w-md text-[1.02rem] leading-relaxed text-[var(--aura-muted)]">
+            {project.body}
           </p>
         </div>
       </div>

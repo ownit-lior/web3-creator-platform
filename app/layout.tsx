@@ -49,7 +49,7 @@ export default function RootLayout({
     <html
       lang="he"
       dir="rtl"
-      className={`${assistant.variable} ${frankRuhl.variable} ${cormorant.variable}`}
+      className={`scroll-smooth ${assistant.variable} ${frankRuhl.variable} ${cormorant.variable}`}
     >
       <body className="font-[family-name:var(--font-aura-sans)] antialiased">
         <AppThirdwebProvider>
