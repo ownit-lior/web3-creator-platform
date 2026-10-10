@@ -1,7 +1,5 @@
-"use client";
-
-import { AppShell } from "@/components/app-shell";
+import { AuraLanding } from '@/components/aura/landing'
 
 export default function Page() {
-  return <AppShell />;
+  return <AuraLanding />
 }
